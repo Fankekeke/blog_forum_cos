@@ -6,4 +6,9 @@
     <select id="selectRecordPage" resultType="java.util.LinkedHashMap">
 
     </select>
+
+    <!-- 根据用户ID获取历史访问记录 -->
+    <select id="queryHistoryByUserId" resultType="java.util.LinkedHashMap">
+
+    </select>
 </mapper>

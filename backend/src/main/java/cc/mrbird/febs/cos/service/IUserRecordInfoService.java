@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 用户访问历史 service层
@@ -23,4 +24,12 @@ public interface IUserRecordInfoService extends IService<UserRecordInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectRecordPage(Page<UserRecordInfo> page, UserRecordInfo userRecordInfo);
+
+    /**
+     * 根据用户ID获取历史访问记录
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryHistoryByUserId(Integer userId);
 }

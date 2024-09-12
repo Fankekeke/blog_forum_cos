@@ -36,6 +36,17 @@ public class UserRecordInfoController {
     }
 
     /**
+     * 根据用户ID获取历史访问记录
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryHistoryByUserId/{userId}")
+    public R queryHistoryByUserId(@PathVariable("userId") Integer userId) {
+        return R.ok();
+    }
+
+    /**
      * 查询用户访问历史 详情
      *
      * @param id 主键ID

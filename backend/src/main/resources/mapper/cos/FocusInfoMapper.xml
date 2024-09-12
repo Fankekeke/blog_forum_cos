@@ -4,6 +4,25 @@
 
     <!-- 分页获取关注用户 -->
     <select id="selectFocusPage" resultType="java.util.LinkedHashMap">
-
+        SELECT
+        focus_info.*,
+        user_info.`name`,
+        user_info.images,
+        ui2.`name` AS collectUser,
+        ui2.images AS collectImages
+        FROM
+        focus_info
+        LEFT JOIN user_info ON ( user_info.id = focus_info.user_id )
+        LEFT JOIN user_info ui2 ON ( ui2.id = focus_info.collect_user_id )
+        WHERE
+        1 = 1
+        <if test="focusInfo.collectUser != null and focusInfo.collectUser != ''">
+            AND ui2.`name` LIKE CONCAT('%',#{focusInfo.collectUser},'%')
+        </if>
+        <if test="focusInfo.userName != null and focusInfo.userName != ''">
+            AND user_info.`name` LIKE CONCAT('%',#{focusInfo.userName},'%')
+        </if>
+        ORDER BY
+        focus_info.create_date DESC
     </select>
 </mapper>

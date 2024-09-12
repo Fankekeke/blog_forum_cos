@@ -4,6 +4,35 @@
 
     <!-- 分页获取帖子收藏 -->
     <select id="selectCollectPage" resultType="java.util.LinkedHashMap">
-
+        SELECT
+        ci.*,
+        user_info.`name`,
+        user_info.images,
+        post_info.images AS postImages,
+        post_info.title,
+        post_info.content,
+        post_info.tag_ids,
+        ui2.`name` AS collectUser,
+        ui2.images AS collectImages,
+        GROUP_CONCAT( tag_info.`name` ) AS tagNames
+        FROM
+        collect_info
+        LEFT JOIN user_info ON ( user_info.id = collect_info.user_id )
+        LEFT JOIN post_info ON ( post_info.id = collect_info.post_id )
+        LEFT JOIN user_info ui2 ON ( ui2.id = post_info.user_id )
+        LEFT JOIN tag_info ON FIND_IN_SET( tag_info.id, post_info.tag_ids )
+        WHERE
+        1 = 1
+        <if test="collectInfo.title != null and collectInfo.title != ''">
+            AND post_info.title LIKE CONCAT('%',#{collectInfo.title},'%')
+        </if>
+        <if test="collectInfo.collectUser != null and collectInfo.collectUser != ''">
+            AND ui2.`name` LIKE CONCAT('%',#{collectInfo.collectUser},'%')
+        </if>
+        <if test="collectInfo.postUserName != null and collectInfo.postUserName != ''">
+            AND user_info.`name` LIKE CONCAT('%',#{collectInfo.postUserName},'%')
+        </if>
+        ORDER BY
+        collect_info.create_date DESC
     </select>
 </mapper>
