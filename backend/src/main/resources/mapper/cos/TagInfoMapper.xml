@@ -4,6 +4,20 @@
 
     <!-- 分页获取贴子模块 -->
     <select id="selectTagPage" resultType="java.util.LinkedHashMap">
-
+        SELECT
+        id,
+        name,
+        create_date AS createDate,
+        delete_flag AS deleteFlag
+        FROM
+        tag_info
+        WHERE
+        1 = 1
+        <if test="tagInfo.name != null and tagInfo.name != ''">
+            AND name LIKE CONCAT('%',#{tagInfo.name},'%')
+        </if>
+        <if test="tagInfo.deleteFlag != null">
+            AND delete_flag = #{tagInfo.deleteFlag}
+        </if>
     </select>
 </mapper>

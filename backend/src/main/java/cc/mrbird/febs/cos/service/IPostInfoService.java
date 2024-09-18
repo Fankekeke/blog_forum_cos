@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 贴子消息 service层
@@ -23,4 +24,37 @@ public interface IPostInfoService extends IService<PostInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectPostPage(Page<PostInfo> page, PostInfo postInfo);
+
+    /**
+     * 获取模块下的贴子
+     *
+     * @param tagId 模块ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> getPostByTag(Integer tagId);
+
+    /**
+     * 获取贴子详细信息
+     *
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> postDetail(Integer postId);
+
+    /**
+     * 模糊查询帖子信息
+     *
+     * @param key 关键词
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> postByKey(String key);
+
+    /**
+     * 推荐贴子
+     *
+     * @param tagId          模块ID
+     * @param collectUserIds 关注用户
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> recommend(Integer tagId, List<Long> collectUserIds);
 }

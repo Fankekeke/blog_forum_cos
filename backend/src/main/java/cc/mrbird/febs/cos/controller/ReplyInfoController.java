@@ -2,8 +2,11 @@ package cc.mrbird.febs.cos.controller;
 
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.PostInfo;
 import cc.mrbird.febs.cos.entity.ReplyInfo;
+import cc.mrbird.febs.cos.service.IPostInfoService;
 import cc.mrbird.febs.cos.service.IReplyInfoService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ public class ReplyInfoController {
 
     private final IReplyInfoService replyInfoService;
 
+    private final IPostInfoService postInfoService;
+
     /**
      * 分页获取回复管理
      *
@@ -33,6 +38,19 @@ public class ReplyInfoController {
     @GetMapping("/page")
     public R page(Page<ReplyInfo> page, ReplyInfo replyInfo) {
         return R.ok(replyInfoService.selectReplyPage(page, replyInfo));
+    }
+
+    /**
+     * 获取具体的帖子回复信息
+     *
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    @GetMapping("/list/{id}")
+    public R replyListByPostId(@PathVariable(value = "id") Integer postId) {
+        PostInfo postInfo = postInfoService.getById(postId);
+        postInfoService.update(Wrappers.<PostInfo>lambdaUpdate().set(PostInfo::getPageviews, postInfo.getPageviews() + 1).eq(PostInfo::getId, postId));
+        return R.ok(replyInfoService.replyListByPostId(postId));
     }
 
     /**

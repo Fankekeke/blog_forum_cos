@@ -31,5 +31,5 @@ public interface UserRecordInfoMapper extends BaseMapper<UserRecordInfo> {
      * @param userId 用户ID
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> queryHistoryByUserId(@Param("userRecordInfo") Integer userId);
+    List<LinkedHashMap<String, Object>> queryHistoryByUserId(@Param("userId") Integer userId);
 }

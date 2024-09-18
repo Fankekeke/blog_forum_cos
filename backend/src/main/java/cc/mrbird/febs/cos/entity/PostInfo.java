@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -66,6 +67,12 @@ public class PostInfo implements Serializable {
      * 删除标识
      */
     private Integer deleteFlag;
+
+    @TableField(exist = false)
+    private Integer tagId;
+
+    @TableField(exist = false)
+    private String username;
 
 
 }

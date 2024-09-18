@@ -48,7 +48,8 @@ export default {
     flex-direction: column;
     height: 100vh;
     overflow: auto;
-    background: rgb(234, 234, 234) url(../../../static/img/work-4997565_1280.png) no-repeat left ;
+    background: rgb(234, 234, 234) url(../../../static/img/work-4997565_1280.png) no-repeat center ;
+    background-size: contain;
     .content {
       padding: 32px 0;
       flex: 1;
