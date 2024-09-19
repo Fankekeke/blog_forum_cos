@@ -51,7 +51,10 @@ Page({
   },
   getPostInfo(postId) {
     http.get('getPostInfoById', { postId }).then((r) => {
-      let images = r.postInfo.images.split(',')
+      let images = ''
+      if (r.postInfo.images) {
+        images = r.postInfo.images.split(',')
+      }
       this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
     })
   }

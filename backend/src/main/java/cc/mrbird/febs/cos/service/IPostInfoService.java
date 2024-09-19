@@ -42,6 +42,14 @@ public interface IPostInfoService extends IService<PostInfo> {
     LinkedHashMap<String, Object> postDetail(Integer postId);
 
     /**
+     * 根据贴子编号获取详细信息
+     *
+     * @param postId 帖子ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getPostInfoById(Integer postId);
+
+    /**
      * 模糊查询帖子信息
      *
      * @param key 关键词

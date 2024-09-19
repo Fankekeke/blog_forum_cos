@@ -1,10 +1,7 @@
 package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
-import cc.mrbird.febs.cos.entity.MessageInfo;
-import cc.mrbird.febs.cos.entity.PostInfo;
-import cc.mrbird.febs.cos.entity.ReplyInfo;
-import cc.mrbird.febs.cos.entity.UserInfo;
+import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpUtil;
@@ -41,6 +38,8 @@ public class WebController {
     private final IReplyInfoService replyInfoService;
 
     private final IMessageInfoService messageInfoService;
+
+    private final IChatRecordInfoService chatRecordInfoService;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -82,9 +81,42 @@ public class WebController {
             user.setOpenId(openid);
             user.setCreateDate(DateUtil.formatDateTime(new Date()));
             user.setCode("UR-" + System.currentTimeMillis());
+            user.setName(user.getUserName());
+            user.setImages(user.getAvatar());
             userInfoService.save(user);
             return R.ok(user);
         }
+    }
+
+    /**
+     * 查询消息信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/messageListById")
+    public R messageListById(@RequestParam Integer userId) {
+        return R.ok(chatRecordInfoService.messageListById(userId));
+    }
+
+    /**
+     * 查找聊天记录
+     *
+     * @param takeUser
+     * @param sendUser
+     * @return 结果
+     */
+    @GetMapping("/getMessageDetail")
+    public R getMessageDetail(@RequestParam(value = "takeUser") Integer takeUser, @RequestParam(value = "sendUser") Integer sendUser, @RequestParam(value = "userId") Integer userId) {
+        UserInfo shopInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, userId));
+        if (takeUser.equals(shopInfo.getId())) {
+            chatRecordInfoService.update(Wrappers.<ChatRecordInfo>lambdaUpdate().set(ChatRecordInfo::getTaskStatus, 1)
+                    .eq(ChatRecordInfo::getTakeUser, takeUser).eq(ChatRecordInfo::getSendUser, sendUser));
+        } else {
+            chatRecordInfoService.update(Wrappers.<ChatRecordInfo>lambdaUpdate().set(ChatRecordInfo::getTaskStatus, 1)
+                    .eq(ChatRecordInfo::getTakeUser, sendUser).eq(ChatRecordInfo::getSendUser, takeUser));
+        }
+        return R.ok(chatRecordInfoService.getMessageDetail(takeUser, sendUser));
     }
 
     @RequestMapping("/openid")
@@ -203,7 +235,7 @@ public class WebController {
      */
     @GetMapping("/getPostInfoById")
     public R getPostInfoById(@RequestParam Integer postId) {
-        return R.ok(postInfoService.postDetail(postId));
+        return R.ok(postInfoService.getPostInfoById(postId));
     }
 
     /**

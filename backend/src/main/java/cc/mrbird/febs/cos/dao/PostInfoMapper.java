@@ -57,4 +57,28 @@ public interface PostInfoMapper extends BaseMapper<PostInfo> {
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> recommend(@Param("tagId") Integer tagId, @Param("collectUserIds") String collectUserIds);
+
+    /**
+     * 根据贴子ID获取回复信息
+     *
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> replyInfoByPostId(@Param("postId") Integer postId);
+
+    /**
+     * 根据贴子ID获取回复信息
+     *
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> replyListByPostId(@Param("postId") Integer postId);
+
+    /**
+     * 根据贴子编号获取详细信息
+     *
+     * @param postId 帖子ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getPostInfoById(@Param("postId") Integer postId);
 }

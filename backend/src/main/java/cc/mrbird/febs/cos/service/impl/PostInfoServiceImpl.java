@@ -55,6 +55,20 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     }
 
     /**
+     * 根据贴子编号获取详细信息
+     *
+     * @param postId 帖子ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> getPostInfoById(Integer postId) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.put("postInfo", baseMapper.getPostInfoById(postId));
+        result.put("replyInfo", baseMapper.replyListByPostId(postId));
+        return result;
+    }
+
+    /**
      * 模糊查询帖子信息
      *
      * @param key 关键词

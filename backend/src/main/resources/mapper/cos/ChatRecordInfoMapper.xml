@@ -32,42 +32,28 @@
 
     <!-- 查询消息信息 -->
     <select id="messageListById" resultType="java.util.LinkedHashMap">
-        SELECT
-            mi.send_user AS sendUser,
-            mi.take_user AS takeUser,
-            mi.content,
-            mi.create_date AS createDate,
-            ui1.name AS sendUserName,
-            ui1.images AS sendUserAvatar,
-            ui2.name AS takeUserName,
-            ui2.images AS takeUserAvatar
-        FROM
-            (
-                SELECT
-                    *
-                FROM
-                    chat_record_info
-                WHERE
-                        create_date IN (
-                        SELECT
-                            MAX( create_date )
-                        FROM
-                            chat_record_info
-                        WHERE
-                            take_user = #{ userId }
-                           OR send_user = #{ userId }
-                        GROUP BY
-                            CONCAT(
-                                    IF
-                                        ( send_user &gt; take_user, send_user, take_user ),
-                                    IF
-                                        ( send_user &lt; take_user, send_user, take_user ))
-                    )
-                ORDER BY
-                    create_date DESC
-            ) mi
-                LEFT JOIN user_info ui1 ON ( ui1.id = mi.send_user )
-                LEFT JOIN user_info ui2 ON ( ui2.id = mi.take_user )
+        SELECT mi.send_user   AS sendUser,
+               mi.take_user   AS takeUser,
+               mi.content,
+               mi.create_date AS createDate,
+               ui1.name       AS sendUserName,
+               ui1.images     AS sendUserAvatar,
+               ui2.name       AS takeUserName,
+               ui2.images     AS takeUserAvatar
+        FROM (SELECT *
+              FROM chat_record_info
+              WHERE create_date IN (SELECT MAX(create_date)
+                                    FROM chat_record_info
+                                    WHERE take_user = #{ userId }
+                                       OR send_user = #{ userId }
+                                    GROUP BY CONCAT(
+                                                     IF
+                                                         (send_user &gt; take_user, send_user, take_user),
+                                                     IF
+                                                         (send_user &lt; take_user, send_user, take_user)))
+              ORDER BY create_date DESC) mi
+                 LEFT JOIN user_info ui1 ON (ui1.id = mi.send_user)
+                 LEFT JOIN user_info ui2 ON (ui2.id = mi.take_user)
         ORDER BY mi.create_date DESC
     </select>
 
