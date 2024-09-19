@@ -7,21 +7,18 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="用户昵称"
+                label='发送人'
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.username"/>
+                <a-input v-model="queryParams.sendUserName"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="消息状态"
+                label="接收人"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-select v-model="queryParams.readStatus" allowClear>
-                  <a-select-option value="0">未读</a-select-option>
-                  <a-select-option value="1">已读</a-select-option>
-                </a-select>
+                <a-input v-model="queryParams.takeUserName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -114,43 +111,49 @@ export default {
     }),
     columns () {
       return [{
-        title: '消息ID',
-        dataIndex: 'id'
-      }, {
-        title: '用户昵称',
-        dataIndex: 'username'
+        title: '发送人',
+        dataIndex: 'sendUserName'
       }, {
         title: '头像',
-        dataIndex: 'images',
+        dataIndex: 'sendUserAvatar',
         customRender: (text, record, index) => {
-          if (!record.images) return <a-avatar shape="square" icon="user" />
+          if (!record.sendUserAvatar) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+              <a-avatar shape="square" size={132} icon="user" src={ record.sendUserAvatar } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            <a-avatar shape="square" icon="user" src={ record.sendUserAvatar } />
           </a-popover>
         }
       }, {
-        title: '消息状态',
-        dataIndex: 'readStatus',
-        customRender: (text, row, index) => {
-          switch (text) {
-            case 0:
-              return <a-tag>未读</a-tag>
-            case 1:
-              return <a-tag color="blue">已读</a-tag>
-            default:
-              return '- -'
-          }
+        title: '接收人',
+        dataIndex: 'takeUserName'
+      }, {
+        title: '头像',
+        dataIndex: 'takeUserAvatar',
+        customRender: (text, record, index) => {
+          if (!record.takeUserAvatar) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ record.takeUserAvatar } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ record.takeUserAvatar } />
+          </a-popover>
         }
       }, {
-        title: '消息内容',
+        title: '发送内容',
         dataIndex: 'content',
-        scopedSlots: {customRender: 'contentShow'}
+        scopedSlots: { customRender: 'contentShow' }
       }, {
-        title: '发送时间',
-        dataIndex: 'createDate'
+        title: '发送日期',
+        dataIndex: 'createDate',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
       }]
     }
   },
@@ -186,7 +189,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/message-info/' + ids).then(() => {
+          that.$delete('/cos/chat-record-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -259,7 +262,7 @@ export default {
       if (params.readStatus === undefined) {
         delete params.readStatus
       }
-      this.$get('/cos/message-info/page', {
+      this.$get('/cos/chat-record-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

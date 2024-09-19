@@ -6,8 +6,10 @@
     <select id="selectFocusPage" resultType="java.util.LinkedHashMap">
         SELECT
         focus_info.*,
+        user_info.`code`,
         user_info.`name`,
         user_info.images,
+        ui2.`code` AS collectCode,
         ui2.`name` AS collectUser,
         ui2.images AS collectImages
         FROM

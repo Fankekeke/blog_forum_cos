@@ -6,6 +6,7 @@
     <select id="selectMessagePage" resultType="java.util.LinkedHashMap">
         SELECT
         message_info.*,
+        user_info.`code`,
         user_info.`name`,
         user_info.images
         FROM

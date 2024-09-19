@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,6 +42,15 @@ public class UserRecordInfo implements Serializable {
      * 访问时间
      */
     private String createDate;
+
+    @TableField(exist = false)
+    private String name;
+
+    @TableField(exist = false)
+    private String code;
+
+    @TableField(exist = false)
+    private String title;
 
 
 }

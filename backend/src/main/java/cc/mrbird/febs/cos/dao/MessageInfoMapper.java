@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 系统消息 mapper层
@@ -23,4 +24,5 @@ public interface MessageInfoMapper extends BaseMapper<MessageInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectMessagePage(Page<MessageInfo> page, @Param("messageInfo") MessageInfo messageInfo);
+
 }

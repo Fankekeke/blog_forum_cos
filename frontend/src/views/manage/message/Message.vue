@@ -10,7 +10,7 @@
                 label="用户昵称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.username"/>
+                <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
@@ -117,8 +117,13 @@ export default {
         title: '消息ID',
         dataIndex: 'id'
       }, {
-        title: '用户昵称',
-        dataIndex: 'username'
+        title: '用户编号',
+        dataIndex: 'code',
+        ellipsis: true
+      }, {
+        title: '用户名称',
+        dataIndex: 'name',
+        ellipsis: true
       }, {
         title: '头像',
         dataIndex: 'images',
@@ -147,10 +152,11 @@ export default {
       }, {
         title: '消息内容',
         dataIndex: 'content',
-        scopedSlots: {customRender: 'contentShow'}
+        ellipsis: true
       }, {
         title: '发送时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        ellipsis: true
       }]
     }
   },

@@ -121,6 +121,10 @@ export default {
     }),
     columns () {
       return [{
+        title: '用户编号',
+        dataIndex: 'code',
+        ellipsis: true
+      }, {
         title: '用户昵称',
         dataIndex: 'username',
         ellipsis: true
@@ -137,12 +141,19 @@ export default {
           </a-popover>
         }
       }, {
-        title: '所属贴子',
-        dataIndex: 'title',
-        ellipsis: true
-      }, {
         title: '消息内容',
         dataIndex: 'content',
+        ellipsis: true
+      }, {
+        title: '所属贴子',
+        dataIndex: 'title',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return '【' + text + '】'
+          } else {
+            return '- -'
+          }
+        },
         ellipsis: true
       }, {
         title: '发送时间',

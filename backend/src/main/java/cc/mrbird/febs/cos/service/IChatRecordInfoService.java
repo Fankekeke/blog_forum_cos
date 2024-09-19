@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 聊天记录 service层
@@ -23,4 +24,21 @@ public interface IChatRecordInfoService extends IService<ChatRecordInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectChatRecordPage(Page<ChatRecordInfo> page, ChatRecordInfo chatRecordInfo);
+
+    /**
+     * 查询消息信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> messageListById(Integer userId);
+
+    /**
+     * 查找聊天记录
+     *
+     * @param takeUser 发送者
+     * @param sendUser 接收人
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> getMessageDetail(Integer takeUser, Integer sendUser);
 }

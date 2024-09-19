@@ -5,7 +5,7 @@
     <!-- 分页获取帖子收藏 -->
     <select id="selectCollectPage" resultType="java.util.LinkedHashMap">
         SELECT
-        ci.*,
+        collect_info.*,
         user_info.`name`,
         user_info.images,
         post_info.images AS postImages,

@@ -12,6 +12,7 @@
         ri.reply_user_id replyUserId,
         ri.send_create AS sendCreate,
         pi.title,
+        ui.code,
         ui.name as username,
         ui.images
         FROM
