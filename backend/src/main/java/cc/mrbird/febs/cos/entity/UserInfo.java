@@ -72,5 +72,15 @@ public class UserInfo implements Serializable {
      */
     private Integer userId;
 
+    /**
+     * openId
+     */
+    private String openId;
+
+    /**
+     * 创建时间
+     */
+    private String createDate;
+
 
 }
