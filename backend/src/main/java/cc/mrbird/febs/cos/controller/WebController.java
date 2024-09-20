@@ -238,6 +238,33 @@ public class WebController {
         return R.ok(postInfoService.getPostInfoById(postId));
     }
 
+    @GetMapping("/home")
+    public R home() {
+        return R.ok();
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectUserInfo")
+    public R selectUserInfo(@RequestParam("userId") Integer userId) {
+        return R.ok(userInfoService.getById(userId));
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param userInfo 用户信息
+     * @return 结果
+     */
+    @PostMapping("/editUserInfo")
+    public R editUserInfo(@RequestBody UserInfo userInfo) {
+        return R.ok(userInfoService.updateById(userInfo));
+    }
+
     /**
      * 贴子回复
      *

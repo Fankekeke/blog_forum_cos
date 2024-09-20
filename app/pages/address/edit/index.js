@@ -7,25 +7,63 @@ Page({
 		hidden: true,
 		region: ['重庆市', '重庆市', '江北区'],
 		name: '',
-		phone: '',
-		address: '',
-		defaultAddress: 1,
+		area: '',
+		birthday: '',
+		sex: '',
+		profession: '',
+		remark: '',
+		userId: null,
 		addressId: 0,
+		userInfo: {
+			name: ''
+		}
 	},
 	onLoad: function (option) {
 		this.setData({ addressId: option.addressId })
-		this.getAddressInfo(option.addressId)
+		this.getUserInfo()
 	},
-	getAddressInfo(addressId) {
-		http.get('addressInfoById', { addressId }).then((r) => {
-			this.setData({
-				name: r.data.name,
-				address: r.data.address,
-				phone: r.data.phone,
-				defaultAddress: r.data.defaultAddress
-			})
+	getUserInfo() {
+		wx.getStorage({
+			key: 'userInfo',
+			success: (res) => {
+				console.log(res.data.id)
+				http.get('selectUserInfo', { userId: res.data.id }).then((r) => {
+					this.setData({
+						userId: r.data.id,
+						name: r.data.name,
+						area: r.data.area,
+						birthday: r.data.birthday,
+						sex: r.data.sex,
+						profession: r.data.profession,
+						remark: r.data.remark
+					})
+				})
+			},
+			fail: res => {
+				wx.showToast({
+					title: '请先进行登录',
+					icon: 'none',
+					duration: 2000
+				})
+			}
 		})
 	},
+	onDisplay() {
+    this.setData({ show: true });
+  },
+  onClose() {
+    this.setData({ show: false });
+  },
+  formatDate(date) {
+		date = new Date(date);
+		return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  },
+  onConfirm(event) {
+    this.setData({
+      show: false,
+      'birthday': this.formatDate(event.detail),
+    });
+  },
 	delete() {
 		let that = this
 		wx.showModal({
@@ -55,8 +93,8 @@ Page({
 		wx.getStorage({
 			key: 'userInfo',
 			success: (res) => {
-				let data = { name: this.data.name, phone: this.data.phone, address: this.data.address, defaultAddress: this.data.defaultAddress, userId: res.data.id, id: this.data.addressId }
-				this.addressEdit(data)
+				console.log(this.data.name)
+				this.userEdit()
 			},
 			fail: res => {
 				wx.showToast({
@@ -67,6 +105,18 @@ Page({
 			}
 		})
 	},
+	onChange(event) {
+    this.setData({
+      'sex': event.detail,
+    });
+  },
+
+  onClick(event) {
+    const { name } = event.currentTarget.dataset;
+    this.setData({
+      radio: name,
+    });
+  },
 	getNameValue(e) {
 		this.setData({ name: e.detail.value })
 	},
@@ -76,16 +126,24 @@ Page({
 	getPhoneValue(e) {
 		this.setData({ phone: e.detail.value })
 	},
-	addressEdit(address) {
-		http.post('addressEdit', address).then((r) => {
+	userEdit() {
+		http.post('editUserInfo', {
+			id: this.data.userId,
+			name: this.data.name,
+			area: this.data.area,
+			birthday: this.data.birthday,
+			sex: this.data.sex,
+			profession: this.data.profession,
+			remark: this.data.remark
+		}).then((r) => {
 			wx.showToast({
 				title: '修改成功',
 				icon: 'success',
 				duration: 2000
 			})
 			setTimeout(() => {
-				wx.redirectTo({
-					url: '/pages/user/address/index'
+				wx.switchTab({
+					url: '/pages/user/index/index'
 				});
 			}, 1000)
 		})

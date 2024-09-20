@@ -17,7 +17,7 @@
     <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/index/index">
             <text class='icon-send text-cyan'></text>
-            <text class='text-grey'>我的订单</text>
+            <text class='text-grey'>我的记录</text>
         </navigator>
     </view>
     <!-- <view class="cu-item arrow">
@@ -33,9 +33,9 @@
         </navigator>
     </view>
     <view class="cu-item arrow">
-        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/user/address/index">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/address/edit/index">
             <text class='icon-location text-orange'></text>
-            <text class='text-grey'>地址管理</text>
+            <text class='text-grey'>个人信息</text>
         </navigator>
     </view>
     <!-- <view class="cu-item arrow" wx:if="{{userInfo.type == 2}}">

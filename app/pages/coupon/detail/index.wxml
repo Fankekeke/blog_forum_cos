@@ -30,7 +30,7 @@
                             </view>
                         </view>
                     </view>
-                    <view class="text-content">{{postInfo.content}}</view>
+                    <view style="padding: 0 30rpx 0;font-size: 26rpx;margin-bottom: 20rpx;line-height: 45rpx">{{postInfo.content}}</view>
                     <view class="grid flex-sub padding-lr col-3 grid-square">
                         <view class="bg-img only-img" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item}});" wx:for="{{imagesList}}"></view>
                     </view>
