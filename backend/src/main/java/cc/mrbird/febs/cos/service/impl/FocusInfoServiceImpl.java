@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 关注用户 实现层
@@ -28,5 +29,16 @@ public class FocusInfoServiceImpl extends ServiceImpl<FocusInfoMapper, FocusInfo
     @Override
     public IPage<LinkedHashMap<String, Object>> selectFocusPage(Page<FocusInfo> page, FocusInfo focusInfo) {
         return baseMapper.selectFocusPage(page, focusInfo);
+    }
+
+    /**
+     * 根据用户获取关注用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectFocusByUser(Integer userId) {
+        return baseMapper.selectFocusByUser(userId);
     }
 }

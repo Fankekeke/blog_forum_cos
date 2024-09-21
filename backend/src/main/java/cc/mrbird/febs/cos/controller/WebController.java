@@ -20,10 +20,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -45,6 +42,10 @@ public class WebController {
     private final IUserRecordInfoService userRecordInfoService;
 
     private final ITagInfoService tagInfoService;
+
+    private final ICollectInfoService collectInfoService;
+
+    private final IFocusInfoService focusInfoService;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -235,6 +236,28 @@ public class WebController {
     @GetMapping("/getPostList")
     public R getPostList() {
         return R.ok(postInfoService.getPostByTag(null));
+    }
+
+    /**
+     * 获取用户记录
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/getListByUserId")
+    public R getListByUserId(@RequestParam("userId") Integer userId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("collect", Collections.emptyList());
+                put("focus", Collections.emptyList());
+                put("reply", Collections.emptyList());
+            }
+        };
+        result.put("collect", collectInfoService.selectCollectByUser(userId));
+        result.put("focus", focusInfoService.selectFocusByUser(userId));
+        result.put("reply", replyInfoService.replyListByUserId(userId));
+        return R.ok(result);
     }
 
     /**

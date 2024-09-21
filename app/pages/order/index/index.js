@@ -6,7 +6,7 @@ Page({
         CustomBar: app.globalData.CustomBar,
         TabbarBot: app.globalData.tabbar_bottom,
         TabCur: 0, scrollLeft: 0,
-        SortMenu: [{ id: 0, name: "全部订单" }, { id: 1, name: "待收货" }, { id: 2, name: "已完成" }],
+        SortMenu: [{ id: 0, name: "贴子收藏" }, { id: 1, name: "关注用户" }, { id: 2, name: "我的回复" }],
         userInfo: null,
         orderListCopy: [],
         orderList: [],
@@ -21,7 +21,7 @@ Page({
             key: 'userInfo',
             success: (res) => {
                 if (res.data.type == 2) {
-                    this.setData({ SortMenu: [{ id: 0, name: "全部订单" }, { id: 1, name: "待收货" }, { id: 2, name: "已完成" }]})
+                    this.setData({ SortMenu: [{ id: 0, name: "贴子收藏" }, { id: 1, name: "关注用户" }, { id: 2, name: "我的回复" }]})
                     //this.getOrderByUserId(res.data.id)
                 }
                 this.setData({ userInfo: res.data })
@@ -148,11 +148,11 @@ Page({
         }
     },
     getOrderListByUserId(userId) {
-        http.get('getOrderListByUserId', { userId }).then((r) => {
-            r.data.forEach(item => {
-                item.image = item.images.split(',')[0],
-                    item.days = this.timeFormat(item.createDate)
-            });
+        http.get('getListByUserId', { userId }).then((r) => {
+            // r.data.forEach(item => {
+            //     item.image = item.images.split(',')[0],
+            //         item.days = this.timeFormat(item.createDate)
+            // });
             this.setData({
                 orderList: r.data,
                 orderListCopy: r.data

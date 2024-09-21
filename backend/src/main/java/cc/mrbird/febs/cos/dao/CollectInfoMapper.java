@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 帖子收藏 mapper层
@@ -23,4 +24,12 @@ public interface CollectInfoMapper extends BaseMapper<CollectInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectCollectPage(Page<CollectInfo> page, @Param("collectInfo") CollectInfo collectInfo);
+
+    /**
+     * 根据用户获取收藏列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectCollectByUser(Integer userId);
 }

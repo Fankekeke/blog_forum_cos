@@ -27,4 +27,27 @@
         ORDER BY
         focus_info.create_date DESC
     </select>
+
+    <!-- 根据用户获取关注用户 -->
+    <select id="selectFocusByUser" resultType="java.util.LinkedHashMap">
+        SELECT
+        focus_info.*,
+        user_info.`code`,
+        user_info.`name`,
+        user_info.images,
+        ui2.`code` AS collectCode,
+        ui2.`name` AS collectUser,
+        ui2.images AS collectImages
+        FROM
+        focus_info
+        LEFT JOIN user_info ON ( user_info.id = focus_info.user_id )
+        LEFT JOIN user_info ui2 ON ( ui2.id = focus_info.collect_user_id )
+        WHERE
+        1 = 1
+        <if test="userId != null">
+            AND focus_info.user_id = #{userId}
+        </if>
+        ORDER BY
+        focus_info.create_date DESC
+    </select>
 </mapper>

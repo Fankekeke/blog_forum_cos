@@ -41,4 +41,15 @@ public class ReplyInfoServiceImpl extends ServiceImpl<ReplyInfoMapper, ReplyInfo
     public List<LinkedHashMap<String, Object>> replyListByPostId(Integer postId) {
         return baseMapper.replyListByPostId(postId);
     }
+
+    /**
+     * 获取用户回复信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> replyListByUserId(Integer userId) {
+        return null;
+    }
 }

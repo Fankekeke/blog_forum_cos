@@ -30,6 +30,31 @@
         ORDER BY ri.send_create DESC
     </select>
 
+    <!-- 获取用户回复信息 -->
+    <select id="replyListByUserId" resultType="java.util.LinkedHashMap">
+        SELECT
+        ri.id,
+        ri.user_id AS userId,
+        ri.content,
+        ri.post_id AS postId,
+        ri.reply_user_id replyUserId,
+        ri.send_create AS sendCreate,
+        pi.title,
+        ui.code,
+        ui.name as username,
+        ui.images
+        FROM
+        reply_info ri
+        LEFT JOIN post_info pi ON ( ri.post_id = pi.id )
+        LEFT JOIN user_info ui ON (ui.id = ri.user_id)
+        WHERE
+        ri.delete_flag = 0
+        <if test="userId != null">
+            AND ri.user_id = #{userId}
+        </if>
+        ORDER BY ri.send_create DESC
+    </select>
+
     <!-- 获取具体的帖子回复信息 -->
     <select id="replyListByPostId" resultType="java.util.LinkedHashMap">
         SELECT ri.id,

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 关注用户 service层
@@ -23,4 +24,12 @@ public interface IFocusInfoService extends IService<FocusInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectFocusPage(Page<FocusInfo> page, FocusInfo focusInfo);
+
+    /**
+     * 根据用户获取关注用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectFocusByUser(Integer userId);
 }

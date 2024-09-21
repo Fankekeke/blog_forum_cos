@@ -35,4 +35,32 @@
         ORDER BY
         collect_info.create_date DESC
     </select>
+
+    <!-- 根据用户获取收藏列表 -->
+    <select id="selectCollectByUser" resultType="java.util.LinkedHashMap">
+        SELECT
+        collect_info.*,
+        user_info.`name`,
+        user_info.images,
+        post_info.images AS postImages,
+        post_info.title,
+        post_info.content,
+        post_info.tag_ids,
+        ui2.`name` AS collectUser,
+        ui2.images AS collectImages,
+        GROUP_CONCAT( tag_info.`name` ) AS tagNames
+        FROM
+        collect_info
+        LEFT JOIN user_info ON ( user_info.id = collect_info.user_id )
+        LEFT JOIN post_info ON ( post_info.id = collect_info.post_id )
+        LEFT JOIN user_info ui2 ON ( ui2.id = post_info.user_id )
+        LEFT JOIN tag_info ON FIND_IN_SET( tag_info.id, post_info.tag_ids )
+        WHERE
+        1 = 1
+        <if test="userId != null">
+            AND collect_info.user_id = #{userId}
+        </if>
+        ORDER BY
+        collect_info.create_date DESC
+    </select>
 </mapper>

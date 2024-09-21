@@ -3,7 +3,7 @@
     <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
         <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
             <text class='icon-back'></text>
-            我的订单
+            我的记录
         </navigator>
     </view>
 </view>
@@ -65,7 +65,7 @@
             </view>
         </view>
         <view wx:if="{{ orderList.length === 0 }}">
-            <van-empty style="height: 400px;margin: 0 auto" description="无订单信息" />
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
         </view>
         <view class="canui-order-item bg-white" wx:for="{{ myOrderList }}" wx:if="{{ TabCur == 3 }}">
             <view class="head-title-box">

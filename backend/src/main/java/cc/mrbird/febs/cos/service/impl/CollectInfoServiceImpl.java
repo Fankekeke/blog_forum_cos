@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 帖子收藏 实现层
@@ -28,5 +29,16 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
     @Override
     public IPage<LinkedHashMap<String, Object>> selectCollectPage(Page<CollectInfo> page, CollectInfo collectInfo) {
         return baseMapper.selectCollectPage(page, collectInfo);
+    }
+
+    /**
+     * 根据用户获取收藏列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectCollectByUser(Integer userId) {
+        return baseMapper.selectCollectByUser(userId);
     }
 }
