@@ -50,12 +50,28 @@ Page({
     }
   },
   getPostInfo(postId) {
-    http.get('getPostInfoById', { postId }).then((r) => {
-      let images = ''
-      if (r.postInfo.images) {
-        images = r.postInfo.images.split(',')
+    let userId = null
+    wx.getStorage({
+      key: 'userInfo',
+      success: (res) => {
+       userId = res.data.id
+       http.get('getPostInfoById', { postId, userId }).then((r) => {
+        let images = ''
+        if (r.postInfo.images) {
+          images = r.postInfo.images.split(',')
+        }
+        this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
+      })
+      },
+      fail: res => {
+        http.get('getPostInfoById', { postId }).then((r) => {
+          let images = ''
+          if (r.postInfo.images) {
+            images = r.postInfo.images.split(',')
+          }
+          this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
+        }) 
       }
-      this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
     })
   }
 });

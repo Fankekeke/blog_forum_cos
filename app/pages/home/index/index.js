@@ -34,8 +34,14 @@ Page({
 			id: 2,
 			icon: 'group_fill',
 			color: 'orange',
-			name: '热门',
+			name: '我的关注',
 			type: 2
+		}, {
+			id: 3,
+			icon: 'shopfill',
+			color: 'yellow',
+			name: '我的收藏',
+			type: 3
 		}],
 		iconList1: [{
 			id: 1,
@@ -91,7 +97,22 @@ Page({
 	    //     }
 	    // });
 		this.home()
+		this.getPostInfo()
 	},
+
+getPostInfo() {
+		http.get('getPostList').then((r) => {
+				r.data.forEach(item => {
+						if (item.images != null) {
+								item.image = item.images.split(',')[0]
+						}
+						item.days = this.timeFormat(item.createDate)
+				});
+				if (r.data !== null) {
+						this.setData({ postInfo: r.data })
+				}
+		})
+},
 	timeFormat(time) {
         var nowTime = new Date();
         var day = nowTime.getDate();

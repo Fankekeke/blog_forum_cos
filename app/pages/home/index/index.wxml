@@ -54,7 +54,7 @@
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-title text-green'></text>
-        <text>热销推荐</text>
+        <text>热门</text>
     </view>
     <!-- <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
@@ -63,7 +63,7 @@
 <view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;">
     <view class='nav-list canui-flex-car'>
 
-        <navigator wx:for="{{commodityHot}}" open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{item.id}}" class="nav-li canui-yx-url">
+        <navigator wx:for="{{postInfo}}" open-type="navigate" hover-class='none' data-postId='{{item.id}}' bindtap='postDetail' class="nav-li canui-yx-url">
             <view class="flex-sub cu-card case shadow-warp bg-white">
                 <view class="cu-item shadow">
                     <view class='image'>
@@ -72,14 +72,14 @@
                     <view class="cu-list menu menu-avatar">
                         <view class="cu-item">
                             <view class='content flex-sub'>
-                                <view class='text-grey'>{{ item.name }}</view>
+                                <view class='text-grey' style="font-size: 11px">{{ item.userName }}</view>
                                 <view class='text-gray text-sm flex justify-between'>
-                                    {{item.orderNum}}人种草
+                                    {{item.title}}
                                 </view>
                             </view>
                         </view>
                     </view>
-                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item.avatar}});"></view>
+                    <view class="cu-avatar radius" style="background-image:url({{item.avatar}});"></view>
                 </view>
             </view>
         </navigator>
@@ -88,7 +88,7 @@
 </view>
 
 <!--论坛-->
-<view class="cu-bar bg-white solid-bottom margin-top">
+<!-- <view class="cu-bar bg-white solid-bottom margin-top">
     <view class='action'>
         <text class='icon-title text-orange'></text> 论坛
     </view>
@@ -107,10 +107,10 @@
             <view class='text-grey text-xs'>{{ item.days }}</view>
         </view>
     </view>
-</view>
+</view> -->
 
 <!--设计师-->
-<view class="cu-bar bg-white solid-bottom margin-top">
+<!-- <view class="cu-bar bg-white solid-bottom margin-top">
     <view class='action'>
         <text class='icon-title text-orange'></text> 商铺
     </view>
@@ -129,4 +129,4 @@
             <view class='text-grey text-xs'>{{ item.tag }}</view>
         </view>
     </view>
-</view>
+</view> -->

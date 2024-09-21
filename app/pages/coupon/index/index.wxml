@@ -17,29 +17,34 @@
     </scroll-view> -->
     <view class="cu-card article">
         <view class="cu-card case">
-            <view class="cu-item shadow" wx:for="{{postList}}" bindtap='postDetail' data-postId='{{item.id}}'>
-                <view class="image">
-                    <!-- mode="widthFix" -->
-                    <image src="http://127.0.0.1:9527/imagesWeb/{{item.image}}" style="height: 150px"></image>
-                    <view class="cu-tag bg-blue">热度 {{item.replyNum}}</view>
-                    <view class="cu-bar bg-shadeBottom">
-                        <text class="text-cut">
-                            {{item.content}}
-                        </text>
-                    </view>
-                </view>
-                <view class="cu-list menu-avatar">
-                    <view class="cu-item">
-                        <view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
-                        <view class="content flex-sub" style="margin-top: 15px">
-                            <view class="text-grey">{{item.userName}}</view>
-                            <view class="text-gray text-sm flex justify-between" style="margin-top: 10px">
-                                {{item.days}}
+            <van-row gutter="10">
+                <van-col span="12" wx:for="{{postList}}" bindtap='postDetail' data-postId='{{item.id}}'>
+                    <view class="cu-item shadow" style="margin-bottom:10px">
+                        <view class="image">
+                            <!-- mode="widthFix" -->
+                            <image src="http://127.0.0.1:9527/imagesWeb/{{item.image}}" style="height: 150px"></image>
+                            <view class="cu-tag bg-blue">热度 {{item.replyNum}}</view>
+                            <view class="cu-bar bg-shadeBottom">
+                                <text class="text-cut">
+                                    {{item.title}}
+                                </text>
+                            </view>
+                        </view>
+                        <view class="cu-list menu-avatar">
+                            <view class="cu-item">
+                                <view class="cu-avatar round" style="background-image:url({{item.avatar}});"></view>
+                                <view class="content flex-sub" style="margin-top: 15px;font-size: 13px">
+                                    <view class="text-grey">{{item.userName}}</view>
+                                    <view class="text-gray text-sm flex justify-between" style="margin-top: 10px">
+                                        {{item.days}}
+                                    </view>
+                                </view>
                             </view>
                         </view>
                     </view>
-                </view>
-            </view>
+                </van-col>
+            </van-row>
+
         </view>
     </view>
 </view>

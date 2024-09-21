@@ -4,6 +4,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
@@ -40,6 +41,10 @@ public class WebController {
     private final IMessageInfoService messageInfoService;
 
     private final IChatRecordInfoService chatRecordInfoService;
+
+    private final IUserRecordInfoService userRecordInfoService;
+
+    private final ITagInfoService tagInfoService;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -217,6 +222,11 @@ public class WebController {
 //        return R.ok(result);
 //    }
 
+    @GetMapping("/selectTagList")
+    public R selectTagList() {
+        return R.ok(tagInfoService.list(Wrappers.<TagInfo>lambdaQuery().eq(TagInfo::getDeleteFlag, 0)));
+    }
+
     /**
      * 获取贴子信息
      *
@@ -228,13 +238,33 @@ public class WebController {
     }
 
     /**
+     * 消息回复
+     *
+     * @param chatRecordInfo
+     * @return 结果
+     */
+    @PostMapping("/messageReply")
+    public R messageReply(@RequestBody ChatRecordInfo chatRecordInfo) {
+        chatRecordInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        chatRecordInfo.setTaskStatus(0);
+        return R.ok(chatRecordInfoService.save(chatRecordInfo));
+    }
+
+    /**
      * 根据贴子编号获取详细信息
      *
      * @param postId
      * @return 结果
      */
     @GetMapping("/getPostInfoById")
-    public R getPostInfoById(@RequestParam Integer postId) {
+    public R getPostInfoById(@RequestParam Integer postId, @RequestParam(value = "userId", required = false) String userId) {
+        if (StrUtil.isNotEmpty(userId) && !"null".equals(userId)) {
+            UserRecordInfo userRecordInfo = new UserRecordInfo();
+            userRecordInfo.setUserId(Integer.valueOf(userId));
+            userRecordInfo.setPostId(postId);
+            userRecordInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+            userRecordInfoService.save(userRecordInfo);
+        }
         return R.ok(postInfoService.getPostInfoById(postId));
     }
 

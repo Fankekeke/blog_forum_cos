@@ -11,7 +11,15 @@
     <br />
     <view style="padding: 20px;display: block">
         <van-field model:value="{{ title }}" label="贴子标题" placeholder="请输入" style="display: block;margin-top: 15px;" />
-        <van-field model:value="{{ content }}" label="内容" type="textarea" placeholder="请输入内容" style="display: block;margin-top: 15px;" autosize border="{{ false }}" />
+        <van-field model:value="{{ content }}" label="内容" type="textarea" placeholder="请输入内容"
+            style="display: block;margin-top: 15px;" autosize border="{{ false }}" />
+        <van-radio-group value="{{ tagId }}" bind:change="onChange" style="display: block;margin-top: 15px;">
+            <van-cell-group>
+                <van-cell title="{{ item.name }}" clickable data-name="{{item.id}}" bind:click="onClick" wx:for="{{tagList}}" data-postId='{{item.id}}'>
+                    <van-radio slot="right-icon" name="{{item.id}}" />
+                </van-cell>
+            </van-cell-group>
+        </van-radio-group>
         <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" style="display: block;margin-top: 15px;" />
         <van-button type="primary" block style="display: block;margin-top: 35px;" bindtap="submit">
             提 交

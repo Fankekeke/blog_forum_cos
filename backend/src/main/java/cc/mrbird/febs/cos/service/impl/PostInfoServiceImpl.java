@@ -62,6 +62,9 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
      */
     @Override
     public LinkedHashMap<String, Object> getPostInfoById(Integer postId) {
+        PostInfo postInfo = this.getById(postId);
+        postInfo.setPageviews(postInfo.getPageviews() + 1);
+        this.updateById(postInfo);
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("postInfo", baseMapper.getPostInfoById(postId));
         result.put("replyInfo", baseMapper.replyListByPostId(postId));

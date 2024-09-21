@@ -8,11 +8,33 @@ Page({
 		hidden: true,
     title: '',
     content: '',
-    fileList: []
+    tagId: '',
+    fileList: [],
+    tagList: []
 	},
 	onLoad: function (option) {
     this.isLogin()
-	},
+    this.selectTagList()
+  },
+  selectTagList() {
+    http.get('selectTagList').then((r) => {
+      this.setData({
+        tagList: r.data,
+      });
+    })
+  },
+  onChange(event) {
+    this.setData({
+      radio: event.detail,
+    });
+  },
+
+  onClick(event) {
+    const { name } = event.currentTarget.dataset;
+    this.setData({
+      tagId: name,
+    });
+  },
   isLogin() {
     wx.getStorage({
       key: 'userInfo',
