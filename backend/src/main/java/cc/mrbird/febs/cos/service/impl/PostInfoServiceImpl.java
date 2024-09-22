@@ -33,6 +33,17 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     }
 
     /**
+     * 根据用户获取贴子信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> getPostByUser(Integer userId) {
+        return baseMapper.getPostByUser(userId);
+    }
+
+    /**
      * 获取模块下的贴子
      *
      * @param tagId 模块ID

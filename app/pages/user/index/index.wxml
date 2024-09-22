@@ -38,10 +38,10 @@
             <text class='text-grey'>个人信息</text>
         </navigator>
     </view>
-    <!-- <view class="cu-item arrow" wx:if="{{userInfo.type == 2}}">
+    <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/user/goods/index">
             <text class='icon-vipcard text-green'></text>
-            <text class='text-grey'>我的商品</text>
+            <text class='text-grey'>我的贴子</text>
         </navigator>
-    </view> -->
+    </view>
 </view>

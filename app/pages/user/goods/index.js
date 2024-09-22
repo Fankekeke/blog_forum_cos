@@ -77,10 +77,15 @@ Page({
     }
   },
   getOrderListByUserId(userId) {
-    http.get('getGoodsByUserId', { userId }).then((r) => {
+    http.get('getPostByUser', { userId }).then((r) => {
+      console.log(r.data)
       r.data.forEach(item => {
-        item.image = item.images.split(',')[0],
-          item.days = this.timeFormat(item.createDate)
+        if (item.images) {
+          item.image = item.images.split(',')[0]
+        } else {
+          item.image = ''
+        }
+        item.days = this.timeFormat(item.createDate)
       });
       this.setData({
         orderList: r.data

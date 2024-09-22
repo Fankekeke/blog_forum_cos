@@ -239,6 +239,17 @@ public class WebController {
     }
 
     /**
+     * 根据用户获取贴子信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/getPostByUser")
+    public R getPostByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(postInfoService.getPostByUser(userId));
+    }
+
+    /**
      * 获取用户记录
      *
      * @param userId 用户ID
