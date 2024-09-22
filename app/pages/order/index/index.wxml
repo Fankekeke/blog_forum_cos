@@ -10,13 +10,65 @@
 <view class="box" style="top: {{CustomBar}}px;">
     <scroll-view scroll-x class="bg-white nav">
         <view class='flex text-center'>
-            <view class="cu-item flex-sub {{item.id==TabCur?'text-red cur':''}}" wx:for="{{SortMenu}}" wx:key="item.id" bindtap='tabSelect' data-id="{{item.id}}">
+            <view class="cu-item flex-sub {{item.id==TabCur?'text-red cur':''}}" wx:for="{{SortMenu}}" wx:key="item.id"
+                bindtap='tabSelect' data-id="{{item.id}}">
                 {{item.name}}
             </view>
         </view>
     </scroll-view>
-    <view class="canui-card-order margin-top">
-        <view class="canui-order-item bg-white" wx:for="{{ orderList }}" wx:if="{{ TabCur == 0 || TabCur == 2 || TabCur == 1 }}">
+
+    <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 0 }}">
+        <view class="cu-item " wx:for="{{collectList}}" data-postId='{{ item.id }}'>
+            <view class="cu-avatar radius lg"
+                style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.postImages }});"></view>
+            <view class='content'>
+                <view class="text-titile" style="font-size: 14px">{{ item.title }}</view>
+                <view class='text-gray text-sm'>{{ item.collectUser }}</view>
+            </view>
+            <view class='action'>
+                <view class='text-grey text-xs'>{{ item.tagNames }}</view>
+            </view>
+        </view>
+        <view wx:if="{{ collectList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
+        </view>
+    </view>
+
+    <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 1 }}">
+        <view class="cu-item " wx:for="{{focusList}}" data-postId='{{ item.id }}'>
+            <view class="cu-avatar radius lg"
+                style="background-image:url({{ item.collectImages }});"></view>
+            <view class='content'>
+                <view class="text-titile" style="font-size: 14px">{{ item.collectUser }}</view>
+                <view class='text-gray text-sm'>{{ item.collectCode }}</view>
+            </view>
+            <view class='action'>
+                <view class='text-grey text-xs'>{{ item.createDate }}</view>
+            </view>
+        </view>
+        <view wx:if="{{ focusList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
+        </view>
+    </view>
+
+    <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 2 }}">
+        <view class="cu-item " wx:for="{{replyList}}" data-postId='{{ item.id }}'>
+            <view class="cu-avatar radius lg"
+                style="background-image:url({{ item.images }});"></view>
+            <view class='content'>
+                <view class="text-titile" style="font-size: 14px">{{ item.title }}</view>
+                <view class='text-gray text-sm'>{{ item.content }}</view>
+            </view>
+            <view class='action'>
+                <view class='text-grey text-xs'>{{ item.sendCreate }}</view>
+            </view>
+        </view>
+        <view wx:if="{{ replyList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
+        </view>
+    </view>
+    <!-- <view class="canui-card-order margin-top">
+        <view class="canui-order-item bg-white" wx:for="{{ focusList }}" wx:if="{{ TabCur == 0 || TabCur == 2 || TabCur == 1 }}">
             <view class="head-title-box">
                 <text class="icon-shop"></text>
                 <text>{{ item.userName }}的小店</text>
@@ -111,5 +163,5 @@
                 提 交
             </van-button>
         </view>
-    </van-popup>
+    </van-popup> -->
 </view>

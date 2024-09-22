@@ -11,6 +11,9 @@ Page({
         orderListCopy: [],
         orderList: [],
         myOrderList: [],
+        focusList: [],
+        replyList: [],
+        collectList: [],
         show: false,
         value: 3,
         remarks: '',
@@ -20,10 +23,6 @@ Page({
         wx.getStorage({
             key: 'userInfo',
             success: (res) => {
-                if (res.data.type == 2) {
-                    this.setData({ SortMenu: [{ id: 0, name: "贴子收藏" }, { id: 1, name: "关注用户" }, { id: 2, name: "我的回复" }]})
-                    //this.getOrderByUserId(res.data.id)
-                }
                 this.setData({ userInfo: res.data })
                 this.getOrderListByUserId(res.data.id)
             },
@@ -154,8 +153,9 @@ Page({
             //         item.days = this.timeFormat(item.createDate)
             // });
             this.setData({
-                orderList: r.data,
-                orderListCopy: r.data
+                focusList: r.focus,
+                replyList: r.reply,
+                collectList: r.collect
             })
         })
     },

@@ -24,7 +24,7 @@
 </swiper>
 
 <!--头条滚动区域-->
-<swiper class="swiperitem margin-top solid-bottom" autoplay="true" vertical="true" circular="true" bindchange="lineschange">
+<!-- <swiper class="swiperitem margin-top solid-bottom" autoplay="true" vertical="true" circular="true" bindchange="lineschange">
     <block wx:for="{{Headlines}}" wx:key="item.id">
         <swiper-item  bindtap="linesclick">
             <view class="cu-bar bg-white">
@@ -35,7 +35,7 @@
             </view>
         </swiper-item>
     </block>
-</swiper>
+</swiper> -->
 
 <!--宫格功能区域-->
 <view class="cu-list grid col-4 no-border">

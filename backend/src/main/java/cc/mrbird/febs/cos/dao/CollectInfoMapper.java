@@ -31,5 +31,5 @@ public interface CollectInfoMapper extends BaseMapper<CollectInfo> {
      * @param userId 用户ID
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> selectCollectByUser(Integer userId);
+    List<LinkedHashMap<String, Object>> selectCollectByUser(@Param("userId") Integer userId);
 }

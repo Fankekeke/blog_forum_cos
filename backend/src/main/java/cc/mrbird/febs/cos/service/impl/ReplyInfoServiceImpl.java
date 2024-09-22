@@ -50,6 +50,6 @@ public class ReplyInfoServiceImpl extends ServiceImpl<ReplyInfoMapper, ReplyInfo
      */
     @Override
     public List<LinkedHashMap<String, Object>> replyListByUserId(Integer userId) {
-        return null;
+        return baseMapper.replyListByUserId(userId);
     }
 }
