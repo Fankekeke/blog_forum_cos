@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 用户信息 mapper层
@@ -23,4 +24,12 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectUserPage(Page<UserInfo> page, @Param("userInfo") UserInfo userInfo);
+
+    /**
+     * 获取用户信息
+     *
+     * @param userInfo 用户信息
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectUserList(@Param("userInfo") UserInfo userInfo);
 }

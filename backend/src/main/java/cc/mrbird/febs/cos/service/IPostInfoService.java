@@ -33,12 +33,28 @@ public interface IPostInfoService extends IService<PostInfo> {
     LinkedHashMap<String, Object> homeData();
 
     /**
+     * 查询帖子及用户信息
+     *
+     * @param key 关键字
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> querySearch(String key);
+
+    /**
      * 根据用户获取贴子信息
      *
      * @param userId 用户ID
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> getPostByUser(Integer userId);
+
+    /**
+     * 获取用户及贴子详细信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getUserPostDetail(Integer userId);
 
     /**
      * 获取模块下的贴子

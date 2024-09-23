@@ -42,6 +42,37 @@
         ORDER BY pi.create_date DESC
     </select>
 
+    <!-- 获取贴子消息 -->
+    <select id="selectPostList" resultType="java.util.LinkedHashMap">
+        SELECT
+        pi.id,
+        pi.title,
+        pi.content,
+        pi.images,
+        pi.user_id AS userId,
+        pi.create_date AS createDate,
+        pi.pageviews,
+        pi.tag_ids AS tagIds,
+        pi.delete_flag AS deleteFlag,
+        ui.name as username,
+        ui.code as userCode,
+        ui.images AS userImages,
+        IFNULL(SUM(ci.post_id), 0) AS collect,
+        IFNULL(SUM(ri.post_id), 0) AS reply
+        FROM
+        post_info pi
+        LEFT JOIN collect_info ci ON ( ci.post_id = pi.id ) AND ci.delete_flag = 0
+        LEFT JOIN reply_info ri ON ( ri.post_id = pi.id ) AND ri.delete_flag = 0
+        LEFT JOIN user_info ui ON (ui.id = pi.user_id)
+        WHERE
+        1 = 1
+        <if test="postInfo.title != null and postInfo.title != ''">
+            AND pi.title LIKE CONCAT('%',#{postInfo.title},'%')
+        </if>
+        GROUP BY pi.id
+        ORDER BY pi.create_date DESC
+    </select>
+
     <!-- 根据用户获取贴子信息 -->
     <select id="getPostByUser" resultType="java.util.LinkedHashMap">
         SELECT pi.id,

@@ -42,7 +42,7 @@ public class PostInfoController {
      */
     @GetMapping("/homeData")
     public R homeData() {
-        return R.ok();
+        return R.ok(postInfoService.homeData());
     }
 
     /**

@@ -87,5 +87,9 @@ public class UserInfo implements Serializable {
 
     private String avatar;
 
+    @TableField(exist = false)
+    private Integer focusNum;
 
+    @TableField(exist = false)
+    private Integer fansNum;
 }

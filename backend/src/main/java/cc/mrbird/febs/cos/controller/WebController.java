@@ -1,6 +1,8 @@
 package cc.mrbird.febs.cos.controller;
 
+import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.dao.SensitiveInfoMapper;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.date.DateUtil;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -46,6 +49,8 @@ public class WebController {
     private final ICollectInfoService collectInfoService;
 
     private final IFocusInfoService focusInfoService;
+
+    private final SensitiveInfoMapper sensitiveInfoMapper;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -274,13 +279,21 @@ public class WebController {
     /**
      * 消息回复
      *
-     * @param chatRecordInfo
+     * @param chatRecordInfo 消息
      * @return 结果
      */
     @PostMapping("/messageReply")
-    public R messageReply(@RequestBody ChatRecordInfo chatRecordInfo) {
+    public R messageReply(@RequestBody ChatRecordInfo chatRecordInfo) throws FebsException {
         chatRecordInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         chatRecordInfo.setTaskStatus(0);
+        // 是否违规
+        List<SensitiveInfo> sensitiveInfoList = sensitiveInfoMapper.selectList(Wrappers.<SensitiveInfo>lambdaQuery());
+        List<String> sensitiveWordList = sensitiveInfoList.stream().map(SensitiveInfo::getKeyName).collect(Collectors.toList());
+        for (String word : sensitiveWordList) {
+            if (chatRecordInfo.getContent().contains(word)) {
+                throw new FebsException("回复内容中包含敏感词！");
+            }
+        }
         return R.ok(chatRecordInfoService.save(chatRecordInfo));
     }
 
@@ -335,20 +348,36 @@ public class WebController {
      * @return 结果
      */
     @PostMapping("/replyPost")
-    public R replyPost(@RequestBody ReplyInfo replyInfo) {
+    public R replyPost(@RequestBody ReplyInfo replyInfo) throws FebsException {
         replyInfo.setSendCreate(DateUtil.formatDateTime(new Date()));
+        // 是否违规
+        List<SensitiveInfo> sensitiveInfoList = sensitiveInfoMapper.selectList(Wrappers.<SensitiveInfo>lambdaQuery());
+        List<String> sensitiveWordList = sensitiveInfoList.stream().map(SensitiveInfo::getKeyName).collect(Collectors.toList());
+        for (String word : sensitiveWordList) {
+            if (replyInfo.getContent().contains(word)) {
+                throw new FebsException("回复内容中包含敏感词！");
+            }
+        }
         return R.ok(replyInfoService.save(replyInfo));
     }
 
     /**
      * 添加贴子
      *
-     * @param postInfo
+     * @param postInfo 帖子信息
      * @return 结果
      */
     @PostMapping("/postAdd")
-    public R postAdd(@RequestBody PostInfo postInfo) {
+    public R postAdd(@RequestBody PostInfo postInfo) throws FebsException {
         postInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        // 是否违规
+        List<SensitiveInfo> sensitiveInfoList = sensitiveInfoMapper.selectList(Wrappers.<SensitiveInfo>lambdaQuery());
+        List<String> sensitiveWordList = sensitiveInfoList.stream().map(SensitiveInfo::getKeyName).collect(Collectors.toList());
+        for (String word : sensitiveWordList) {
+            if (postInfo.getContent().contains(word)) {
+                throw new FebsException("帖子内容中包含敏感词！");
+            }
+        }
         return R.ok(postInfoService.save(postInfo));
     }
 
@@ -362,69 +391,26 @@ public class WebController {
         return R.ok(bulletinInfoService.list());
     }
 
-//    /**
-//     * 查询消息信息
-//     *
-//     * @param userId
-//     * @return 结果
-//     */
-//    @GetMapping("/messageListById")
-//    public R messageListById(@RequestParam Integer userId) {
-//        return R.ok(messageInfoService.messageListById(userId));
-//    }
-//
-//    /**
-//     * 查找聊天记录
-//     *
-//     * @param takeUser
-//     * @param sendUser
-//     * @return 结果
-//     */
-//    @GetMapping("/getMessageDetail")
-//    public R getMessageDetail(@RequestParam(value = "takeUser") Integer takeUser, @RequestParam(value = "sendUser") Integer sendUser, @RequestParam(value = "userId") Integer userId) {
-//        if (takeUser.equals(userId)) {
-//            messageInfoService.update(Wrappers.<MessageInfo>lambdaUpdate().set(MessageInfo::getTaskStatus, 1)
-//                    .eq(MessageInfo::getTakeUser, takeUser).eq(MessageInfo::getSendUser, sendUser));
-//        } else {
-//            messageInfoService.update(Wrappers.<MessageInfo>lambdaUpdate().set(MessageInfo::getTaskStatus, 1)
-//                    .eq(MessageInfo::getTakeUser, sendUser).eq(MessageInfo::getSendUser, takeUser));
-//        }
-//        return R.ok(messageInfoService.getMessageDetail(takeUser, sendUser));
-//    }
-//
-//    /**
-//     * 消息回复
-//     *
-//     * @param messageInfo
-//     * @return 结果
-//     */
-//    @PostMapping("/messageReply")
-//    public R messageReply(@RequestBody MessageInfo messageInfo) {
-//        messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-//        messageInfo.setTaskStatus(0);
-//        return R.ok(messageInfoService.save(messageInfo));
-//    }
-//
-//    /**
-//     * 查询店铺及商品信息
-//     *
-//     * @return 结果
-//     */
-//    @GetMapping("/selShopDetailList")
-//    public R selShopDetailList() {
-//        return R.ok(commodityInfoService.selShopDetailList());
-//    }
-//
-//    /**
-//     * 获取商铺及商品详细信息
-//     *
-//     * @param shopId
-//     * @return 结果
-//     */
-//    @GetMapping("/getShopDetail")
-//    public R getShopDetail(@RequestParam Integer shopId) {
-//        return R.ok(commodityInfoService.getShopDetail(shopId));
-//    }
+    /**
+     * 查询帖子及用户信息
+     *
+     * @return 结果
+     */
+    @GetMapping("/selShopDetailList")
+    public R selShopDetailList(@RequestParam(value = "key", required = false) String key) {
+        return R.ok(postInfoService.querySearch(key));
+    }
+
+    /**
+     * 获取用户及贴子详细信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/getShopDetail")
+    public R getShopDetail(@RequestParam Integer userId) {
+        return R.ok(postInfoService.getUserPostDetail(userId));
+    }
 //
 //    /**
 //     * 店铺商品排序方式

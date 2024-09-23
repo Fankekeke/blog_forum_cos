@@ -26,6 +26,14 @@ public interface PostInfoMapper extends BaseMapper<PostInfo> {
     IPage<LinkedHashMap<String, Object>> selectPostPage(Page<PostInfo> page, @Param("postInfo") PostInfo postInfo);
 
     /**
+     * 获取贴子消息
+     *
+     * @param postInfo 贴子消息
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectPostList(@Param("postInfo") PostInfo postInfo);
+
+    /**
      * 根据用户获取贴子信息
      *
      * @param userId 用户ID

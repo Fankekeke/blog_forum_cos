@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -94,6 +95,33 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
         return result;
     }
 
+
+    /**
+     * 查询帖子及用户信息
+     *
+     * @param key 关键字
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> querySearch(String key) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("post", Collections.emptyList());
+                put("user", Collections.emptyList());
+            }
+        };
+        // 帖子
+        PostInfo postInfo = new PostInfo();
+        postInfo.setTitle(key);
+        result.put("post", baseMapper.selectPostList(postInfo));
+        // 用户
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName(key);
+        result.put("user", userInfoMapper.selectUserList(userInfo));
+        return result;
+    }
+
     /**
      * 根据用户获取贴子信息
      *
@@ -103,6 +131,34 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     @Override
     public List<LinkedHashMap<String, Object>> getPostByUser(Integer userId) {
         return baseMapper.getPostByUser(userId);
+    }
+
+    /**
+     * 获取用户及贴子详细信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> getUserPostDetail(Integer userId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("user", null);
+                put("post", Collections.emptyList());
+            }
+        };
+
+        // 用户信息
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        //关注与粉丝
+        List<FocusInfo> focusInfoList1 = focusInfoMapper.selectList(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getUserId, userId));
+        List<FocusInfo> focusInfoList2 = focusInfoMapper.selectList(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getCollectUserId, userId));
+        userInfo.setFocusNum(focusInfoList1.size());
+        userInfo.setFansNum(focusInfoList2.size());
+        // 帖子
+        result.put("post", baseMapper.getPostByUser(userId));
+        return result;
     }
 
     /**
