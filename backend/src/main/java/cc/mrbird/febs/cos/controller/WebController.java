@@ -392,6 +392,32 @@ public class WebController {
     }
 
     /**
+     * 关注/取关 用户
+     *
+     * @param userId      用户ID
+     * @param focusUserId 关注用户ID
+     * @param type        操作 1.关注 2.取关
+     * @return 结果
+     */
+    @GetMapping("/focusUser")
+    public R focusUser(@RequestParam("userId") Integer userId, @RequestParam("focusUserId") Integer focusUserId, @RequestParam("type") Integer type) {
+        return R.ok(focusInfoService.focusUser(userId, focusUserId, type));
+    }
+
+    /**
+     * 收藏/取消 贴子
+     *
+     * @param userId 用户ID
+     * @param postId 贴子ID
+     * @param type   操作 1.关注 2.取关
+     * @return 结果
+     */
+    @GetMapping("/collectPost")
+    public R collectPost(@RequestParam("userId") Integer userId, @RequestParam("postId") Integer postId, @RequestParam("type") Integer type) {
+        return R.ok(collectInfoService.collectPost(userId, postId, type));
+    }
+
+    /**
      * 查询帖子及用户信息
      *
      * @return 结果

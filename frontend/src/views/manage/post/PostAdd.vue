@@ -20,10 +20,14 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label='所属分类' v-bind="formItemLayout">
-            <a-checkbox-group
-              v-model="tagCheck"
-              :options="tagList"
-            />
+            <a-radio-group v-decorator="[
+            'tagIds',
+            { rules: [{ required: true, message: '请输入所属分类!' }] }
+            ]">
+              <a-radio-button :value="item.id" v-for="(item, index) in tagList" :key="index">
+                {{ item.name }}
+              </a-radio-button>
+            </a-radio-group>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -143,7 +147,7 @@ export default {
       this.form.validateFields((err, values) => {
         values.images = images.length > 0 ? images.join(',') : null
         values.userId = this.currentUser.userId
-        values.tagIds = this.tagCheck.join(',')
+        // values.tagIds = this.tagCheck.join(',')
         if (!err) {
           values.publisher = this.currentUser.userId
           this.loading = true

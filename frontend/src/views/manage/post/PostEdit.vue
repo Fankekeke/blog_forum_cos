@@ -20,11 +20,14 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label='所属分类' v-bind="formItemLayout">
-            <a-checkbox-group
-              v-model="tagCheck"
-              :options="tagList"
-              @change="onChange"
-            />
+            <a-radio-group v-decorator="[
+            'tagIds',
+            { rules: [{ required: true, message: '请输入所属分类!' }] }
+            ]">
+              <a-radio-button :value="item.id" v-for="(item, index) in tagList" :key="index">
+                {{ item.name }}
+              </a-radio-button>
+            </a-radio-group>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -145,9 +148,9 @@ export default {
           this.fileList = []
           this.imagesInit(post['images'])
         }
-        if (key === 'tagIds') {
-          this.tagCheck = post[key].split(',').map(Number)
-        }
+        // if (key === 'tagIds') {
+        //   this.tagCheck = post[key].split(',').map(Number)
+        // }
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
           obj[key] = post[key]
@@ -180,7 +183,7 @@ export default {
       this.form.validateFields((err, values) => {
         values.id = this.rowId
         values.images = images.length > 0 ? images.join(',') : null
-        values.tagIds = this.tagCheck.join(',')
+        // values.tagIds = this.tagCheck.join(',')
         if (!err) {
           this.loading = true
           this.$put('/cos/post-info', {
