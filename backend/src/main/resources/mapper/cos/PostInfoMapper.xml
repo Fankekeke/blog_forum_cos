@@ -58,11 +58,13 @@
         ui.avatar,
         ui.images as userImages,
         IFNULL(COUNT(distinct (ci.id)), 0) AS collect,
-        IFNULL(COUNT(ri.id), 0) AS reply
+        IFNULL(COUNT(ri.id), 0) AS reply,
+        tag_info.`name` AS tagNames
         FROM post_info pi
         LEFT JOIN collect_info ci ON (ci.post_id = pi.id) AND ci.delete_flag = 0
         LEFT JOIN reply_info ri ON (ri.post_id = pi.id) AND ri.delete_flag = 0
         LEFT JOIN user_info ui ON (ui.id = pi.user_id)
+        LEFT JOIN tag_info ON ( tag_info.id = pi.tag_ids )
         WHERE pi.delete_flag = 0
         <if test="userId != null and userId != ''">
             AND pi.user_id = #{userId}

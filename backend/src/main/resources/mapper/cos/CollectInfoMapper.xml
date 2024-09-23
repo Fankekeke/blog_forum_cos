@@ -14,13 +14,13 @@
         post_info.tag_ids,
         ui2.`name` AS collectUser,
         ui2.images AS collectImages,
-        GROUP_CONCAT( tag_info.`name` ) AS tagNames
+        tag_info.`name` AS tagNames
         FROM
         collect_info
         LEFT JOIN user_info ON ( user_info.id = collect_info.user_id )
         LEFT JOIN post_info ON ( post_info.id = collect_info.post_id )
         LEFT JOIN user_info ui2 ON ( ui2.id = post_info.user_id )
-        LEFT JOIN tag_info ON FIND_IN_SET( tag_info.id, post_info.tag_ids )
+        LEFT JOIN tag_info ON (tag_info.id = post_info.tag_ids)
         WHERE
         1 = 1
         <if test="collectInfo.title != null and collectInfo.title != ''">
@@ -48,13 +48,13 @@
         post_info.tag_ids,
         ui2.`name` AS collectUser,
         ui2.images AS collectImages,
-        GROUP_CONCAT( tag_info.`name` ) AS tagNames
+        tag_info.`name` AS tagNames
         FROM
         collect_info
         LEFT JOIN user_info ON ( user_info.id = collect_info.user_id )
         LEFT JOIN post_info ON ( post_info.id = collect_info.post_id )
         LEFT JOIN user_info ui2 ON ( ui2.id = post_info.user_id )
-        LEFT JOIN tag_info ON FIND_IN_SET( tag_info.id, post_info.tag_ids )
+        LEFT JOIN tag_info ON (tag_info.id = post_info.tag_ids)
         WHERE
         1 = 1
         <if test="userId != null">
