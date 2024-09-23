@@ -23,16 +23,27 @@
                         <view class="cu-item">
                             <view class="cu-avatar radius lg" style="background-image:url({{postInfo.avatar}});"></view>
                             <view class="content flex-sub" style="margin-left: 10px">
-                                <view>{{postInfo.userName}}</view>
-                                <view class="text-gray text-sm flex justify-between" style="margin-top: 8px">
-                                    {{postInfo.createDate}}
-                                </view>
+                                <van-row>
+                                    <van-col span="16">
+                                        <view>{{postInfo.userName}}</view>
+                                        <view class="text-gray text-sm flex justify-between" style="margin-top: 8px">
+                                            {{postInfo.createDate}}
+                                        </view>
+                                    </van-col>
+                                    <van-col span="8" style="padding: 10px;margin-right: 10px;text-align: right">
+                                        <van-tag style="margin-right: 15px" type="success" size="medium" wx:if="{{collectFlag}}" bindtap='collectPostElse'>已收藏</van-tag>
+                                        <van-tag style="margin-right: 15px" type="primary" size="medium" wx:if="{{!collectFlag}}" bindtap='collectPost'>收藏</van-tag>
+                                    </van-col>
+                                </van-row>
                             </view>
                         </view>
                     </view>
-                    <view style="padding: 0 30rpx 0;font-size: 26rpx;margin-bottom: 20rpx;line-height: 45rpx">{{postInfo.content}}</view>
+                    <view style="padding: 0 30rpx 0;font-size: 26rpx;margin-bottom: 20rpx;line-height: 45rpx">
+                        {{postInfo.content}}</view>
                     <view class="grid flex-sub padding-lr col-3 grid-square">
-                        <view class="bg-img only-img" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item}});" wx:for="{{imagesList}}"></view>
+                        <view class="bg-img only-img"
+                            style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item}});"
+                            wx:for="{{imagesList}}"></view>
                     </view>
                     <view class="text-gray text-sm text-right padding">
                         <text class="cuIcon-attentionfill margin-lr-xs"></text>

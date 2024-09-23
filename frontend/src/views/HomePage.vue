@@ -18,6 +18,7 @@
             <a-row class="more-info" v-if="user.roleId == 74">
               <a-col :span="4"></a-col>
               <a-col :span="4"></a-col>
+              <a-col :span="4"></a-col>
               <a-col :span="4">
                 <head-info title="用户数量" :content="titleData.userNum" :center="false" :bordered="false"/>
               </a-col>

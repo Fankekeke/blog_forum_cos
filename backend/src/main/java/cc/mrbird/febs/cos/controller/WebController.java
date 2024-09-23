@@ -255,6 +255,17 @@ public class WebController {
     }
 
     /**
+     * 删除贴子信息
+     *
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    @GetMapping("/deletePost")
+    public R deletePost(@RequestParam("postId") Integer postId) {
+        return R.ok(postInfoService.update(Wrappers.<PostInfo>lambdaUpdate().set(PostInfo::getDeleteFlag, 1).eq(PostInfo::getId, postId)));
+    }
+
+    /**
      * 获取用户记录
      *
      * @param userId 用户ID
@@ -405,6 +416,18 @@ public class WebController {
     }
 
     /**
+     * 获取用户是否关注此用户
+     *
+     * @param userId      用户ID
+     * @param focusUserId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryFocusUser")
+    public R queryFocusUser(@RequestParam("userId") Integer userId, @RequestParam("focusUserId") Integer focusUserId) {
+        return R.ok(focusInfoService.count(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getUserId, userId).eq(FocusInfo::getCollectUserId, focusUserId)));
+    }
+
+    /**
      * 收藏/取消 贴子
      *
      * @param userId 用户ID
@@ -415,6 +438,18 @@ public class WebController {
     @GetMapping("/collectPost")
     public R collectPost(@RequestParam("userId") Integer userId, @RequestParam("postId") Integer postId, @RequestParam("type") Integer type) {
         return R.ok(collectInfoService.collectPost(userId, postId, type));
+    }
+
+    /**
+     * 获取用户是否收藏贴子
+     *
+     * @param userId 用户ID
+     * @param postId 贴子ID
+     * @return 结果
+     */
+    @GetMapping("/queryCollectPost")
+    public R queryCollectPost(@RequestParam("userId") Integer userId, @RequestParam("postId") Integer postId) {
+        return R.ok(collectInfoService.count(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getPostId, postId).eq(CollectInfo::getUserId, userId)));
     }
 
     /**

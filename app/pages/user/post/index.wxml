@@ -39,11 +39,11 @@
                 <text style="font-size: 12px">{{ item.days }}创建</text>
             </view>
             <view class="grid col-4 flex justify-end order-btn-box" style="margin-top: 5px">
-                <view class='margin-tb-sm text-center'>
+                <!-- <view class='margin-tb-sm text-center'>
                     <button class='cu-btn round line-red shadow' bindtap="edit" data-index="{{item.id}}">
                         修改
                     </button>
-                </view>
+                </view> -->
                 <view class='margin-tb-sm text-center'>
                     <button class='cu-btn round line-red shadow' bindtap="removerPost" data-index="{{item.id}}">
                         删除
@@ -52,11 +52,11 @@
             </view>
         </view>
         <view wx:if="{{ orderList.length === 0 }}">
-            <van-empty style="height: 400px;margin: 0 auto" description="无商品信息" />
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
         </view>
     </view>
 </view>
 
-<view class="canui-foor-fixed {{TabbarBot=='y'?'canui-tabbar-bottom':''}}">
+<!-- <view class="canui-foor-fixed {{TabbarBot=='y'?'canui-tabbar-bottom':''}}">
     <button class="cu-btn canui-color-gradual shadow-blur round lg" bindtap='add'><text class="icon-add"></text> 新增贴子</button>
-</view>
+</view> -->

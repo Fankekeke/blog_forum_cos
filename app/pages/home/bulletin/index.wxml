@@ -20,15 +20,15 @@
             <view class="cu-item shadow" style="padding-top: 10px">
                 <view class="cu-card dynamic no-card" wx:for="{{ bulletinList }}">
                     <view class="cu-item shadow" wx:if="{{ item.id == TabCur }}">
-                        <view style="font-size: 14px;padding: 20px;text-indent: 20px;">{{ item.content }}</view>
+                        <view style="font-size: 15px;padding: 20px;text-indent: 20px;line-height: 25px">{{ item.content }}</view>
                         <view class="grid flex-sub padding-lr col-1 grid-square" wx:for="{{ item.imagesList }}">
                             <view class="bg-img only-img" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item }});"></view>
                         </view>
-                        <view class="text-gray text-sm text-right padding">
+                        <view class="text-gray text-sm text-right padding;" style="font-size: 13px">
                             <text class="cuIcon-attentionfill margin-lr-xs"></text>
                             {{ item.title }}
                             <text class="cuIcon-appreciatefill margin-lr-xs"></text>
-                            {{ item.createDate }}
+                            {{ item.date }}
                             <text class="cuIcon-messagefill margin-lr-xs"></text>
                         </view>
                     </view>

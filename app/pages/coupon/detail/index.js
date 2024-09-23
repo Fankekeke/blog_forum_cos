@@ -9,7 +9,8 @@ Page({
     postInfo: null,
     imagesList: [],
     replyInfo: [],
-    content: ''
+    content: '',
+    collectFlag: false
   },
   onLoad: function (options) {
     this.getPostInfo(options.postId)
@@ -61,6 +62,7 @@ Page({
           images = r.postInfo.images.split(',')
         }
         this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
+        this.queryCollectPost()
       })
       },
       fail: res => {
@@ -71,6 +73,36 @@ Page({
           }
           this.setData({ imagesList: images, replyInfo: r.replyInfo, postInfo: r.postInfo })
         }) 
+      }
+    })
+  },
+  queryCollectPost() {
+    wx.getStorage({
+      key: 'userInfo',
+      success: (res) => {
+       http.get('queryCollectPost', { postId: this.data.postInfo.id, userId: res.data.id }).then((r) => {
+        this.setData({ collectFlag: r.data > 0 })
+      })
+      }
+    })
+  },
+  collectPost() {
+    wx.getStorage({
+      key: 'userInfo',
+      success: (res) => {
+       http.get('collectPost', { postId: this.data.postInfo.id, userId: res.data.id, type: 1 }).then((r) => {
+        this.queryCollectPost()
+      })
+      }
+    })
+  },
+  collectPostElse() {
+    wx.getStorage({
+      key: 'userInfo',
+      success: (res) => {
+       http.get('collectPost', { postId: this.data.postInfo.id, userId: res.data.id, type: 2 }).then((r) => {
+        this.queryCollectPost()
+      })
       }
     })
   }

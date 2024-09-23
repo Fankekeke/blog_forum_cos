@@ -19,7 +19,7 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月浏览量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei;">本月浏览量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
                     {{ titleData.monthOrderTotal }}
@@ -153,7 +153,7 @@ export default {
           enabled: false
         },
         title: {
-          text: '近十天报警统计',
+          text: '近十天浏览统计',
           align: 'left'
         },
         markers: {
@@ -169,7 +169,7 @@ export default {
           height: 300
         },
         title: {
-          text: '近十天数据统计',
+          text: '近十天发贴统计',
           align: 'left'
         },
         plotOptions: {

@@ -91,5 +91,28 @@ Page({
         orderList: r.data
       })
     })
+  },
+  removerPost(event) {
+    http.get('deletePost', { postId: event.currentTarget.dataset.index }).then((r) => {
+      wx.showToast({
+        title: '删除成功',
+        icon: 'none',
+        duration: 2000
+      })
+      wx.getStorage({
+        key: 'userInfo',
+        success: (res) => {
+          this.setData({ userInfo: res.data })
+          this.getOrderListByUserId(res.data.id)
+        },
+        fail: res => {
+          wx.showToast({
+            title: '请先进行登录',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    })
   }
 });
