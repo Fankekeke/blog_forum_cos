@@ -89,4 +89,36 @@ public interface PostInfoMapper extends BaseMapper<PostInfo> {
      * @return 结果
      */
     LinkedHashMap<String, Object> getPostInfoById(@Param("postId") Integer postId);
+
+    /**
+     * 十天内发帖统计
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectOrderNumWithinDays();
+
+    /**
+     * 十天内访问记录统计
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectOrderViewWithinDays();
+
+    /**
+     * 根据时间获取发帖数量
+     *
+     * @param year  年份
+     * @param month 月份
+     * @return 结果
+     */
+    Integer selectPostNumByDate(@Param("year") Integer year, @Param("month") Integer month);
+
+    /**
+     * 根据时间获取浏览量
+     *
+     * @param year  年份
+     * @param month 月份
+     * @return 结果
+     */
+    Integer selectViewNumByDate(@Param("year") Integer year, @Param("month") Integer month);
 }

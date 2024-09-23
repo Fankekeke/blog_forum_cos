@@ -23,4 +23,5 @@ public interface ITagInfoService extends IService<TagInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectTagPage(Page<TagInfo> page, TagInfo tagInfo);
+
 }

@@ -22,13 +22,10 @@
                 <head-info title="用户数量" :content="titleData.userNum" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
-                <head-info title="设备数量" :content="titleData.deviceNum" :center="false" :bordered="false"/>
+                <head-info title="帖子数量" :content="titleData.postNum" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
-                <head-info title="上报数量" :content="titleData.historyNum" :center="false" :bordered="false"/>
-              </a-col>
-              <a-col :span="4">
-                <head-info title="报警数量" :content="titleData.alertNum" :center="false"/>
+                <head-info title="浏览量" :content="titleData.historyNum" :center="false" :bordered="false"/>
               </a-col>
             </a-row>
           </div>
@@ -60,10 +57,9 @@ export default {
   data () {
     return {
       titleData: {
-        outNum: 0,
-        putNum: 0,
-        orderPrice: 0,
-        registerNum: 0
+        userNum: 0,
+        postNum: 0,
+        historyNum: 0
       },
       series: [],
       chartOptions: {

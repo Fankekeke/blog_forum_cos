@@ -7,10 +7,10 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月上报数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月发帖数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.monthNum }}
+                    {{ titleData.monthOrderNum }}
                     <span style="font-size: 20px;margin-top: 3px">条</span>
                   </a-col>
                 </a-row>
@@ -19,10 +19,10 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月报警数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月浏览量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.monthAlertNum }}
+                    {{ titleData.monthOrderTotal }}
                     <span style="font-size: 20px;margin-top: 3px">条</span>
                   </a-col>
                 </a-row>
@@ -31,10 +31,10 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年上报数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年发帖数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.yearNum }}
+                    {{ titleData.yearOrderNum }}
                     <span style="font-size: 20px;margin-top: 3px">条</span>
                   </a-col>
                 </a-row>
@@ -43,10 +43,10 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年报警数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年浏览量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.yearAlertNum }}
+                    {{ titleData.yearOrderTotal }}
                     <span style="font-size: 20px;margin-top: 3px">条</span>
                   </a-col>
                 </a-row>
@@ -287,26 +287,26 @@ export default {
   },
   methods: {
     selectHomeData () {
-      this.$get('/cos/device-type/homeData').then((r) => {
-        let titleData = { userNum: r.data.userNum, deviceNum: r.data.deviceNum, historyNum: r.data.historyNum, alertNum: r.data.alertNum }
+      this.$get('/cos/post-info/homeData').then((r) => {
+        let titleData = { userNum: r.data.userNum, postNum: r.data.postNum, historyNum: r.data.historyNum }
         this.$emit('setTitle', titleData)
-        this.titleData.monthNum = r.data.monthNum
-        this.titleData.monthAlertNum = r.data.monthAlertNum
-        this.titleData.yearNum = r.data.yearNum
-        this.titleData.yearAlertNum = r.data.yearAlertNum
+        this.titleData.monthOrderNum = r.data.monthOrderNum
+        this.titleData.monthOrderTotal = r.data.monthOrderTotal
+        this.titleData.yearOrderNum = r.data.yearOrderNum
+        this.titleData.yearOrderTotal = r.data.yearOrderTotal
 
-        this.bulletinList = r.data.bulletin
+        this.bulletinList = r.data.bulletinInfoList
         let values = []
-        if (r.data.numDayList !== null && r.data.numDayList.length !== 0) {
+        if (r.data.orderNumDayList !== null && r.data.orderNumDayList.length !== 0) {
           if (this.chartOptions1.xaxis.categories.length === 0) {
-            this.chartOptions1.xaxis.categories = r.data.numDayList.map(obj => { return obj.days })
+            this.chartOptions1.xaxis.categories = r.data.orderNumDayList.map(obj => { return obj.days })
           }
-          let itemData = { name: '统计', data: r.data.numDayList.map(obj => { return obj.count }) }
+          let itemData = { name: '统计', data: r.data.orderNumDayList.map(obj => { return obj.count }) }
           values.push(itemData)
           this.series1 = values
         }
-        this.series[0].data = r.data.alertDayList.map(obj => { return obj.count })
-        this.chartOptions.xaxis.categories = r.data.alertDayList.map(obj => { return obj.days })
+        this.series[0].data = r.data.orderViewDayList.map(obj => { return obj.count })
+        this.chartOptions.xaxis.categories = r.data.orderViewDayList.map(obj => { return obj.days })
 
         // if (r.data.putNumWithinDays !== null && r.data.putNumWithinDays.length !== 0) {
         //   if (this.chartOptions2.xaxis.categories.length === 0) {

@@ -36,6 +36,16 @@ public class PostInfoController {
     }
 
     /**
+     * 首页统计信息
+     *
+     * @return 结果
+     */
+    @GetMapping("/homeData")
+    public R homeData() {
+        return R.ok();
+    }
+
+    /**
      * 查询贴子消息详情
      *
      * @param id 主键ID

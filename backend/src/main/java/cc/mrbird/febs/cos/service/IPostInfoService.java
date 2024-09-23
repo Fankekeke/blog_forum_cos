@@ -26,6 +26,13 @@ public interface IPostInfoService extends IService<PostInfo> {
     IPage<LinkedHashMap<String, Object>> selectPostPage(Page<PostInfo> page, PostInfo postInfo);
 
     /**
+     * 首页统计信息
+     *
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> homeData();
+
+    /**
      * 根据用户获取贴子信息
      *
      * @param userId 用户ID

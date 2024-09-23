@@ -1,16 +1,24 @@
 package cc.mrbird.febs.cos.service.impl;
 
-import cc.mrbird.febs.cos.entity.PostInfo;
-import cc.mrbird.febs.cos.dao.PostInfoMapper;
+import cc.mrbird.febs.cos.dao.*;
+import cc.mrbird.febs.cos.entity.*;
+import cc.mrbird.febs.cos.service.IBulletinInfoService;
 import cc.mrbird.febs.cos.service.IPostInfoService;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 贴子消息 实现层
@@ -18,7 +26,18 @@ import java.util.List;
  * @author FanK
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> implements IPostInfoService {
+
+    private final CollectInfoMapper collectInfoMapper;
+
+    private final FocusInfoMapper focusInfoMapper;
+
+    private final UserInfoMapper userInfoMapper;
+
+    private final UserRecordInfoMapper userRecordInfoMapper;
+
+    private final IBulletinInfoService bulletinInfoService;
 
     /**
      * 分页获取贴子消息
@@ -30,6 +49,49 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     @Override
     public IPage<LinkedHashMap<String, Object>> selectPostPage(Page<PostInfo> page, PostInfo postInfo) {
         return baseMapper.selectPostPage(page, postInfo);
+    }
+
+    /**
+     * 首页统计信息
+     *
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> homeData() {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("userNum", 0);
+                put("postNum", 0);
+                put("historyNum", 0);
+            }
+        };
+
+
+        result.put("userNum", userInfoMapper.selectCount(Wrappers.<UserInfo>lambdaQuery()));
+        result.put("postNum", this.count(Wrappers.<PostInfo>lambdaQuery().eq(PostInfo::getDeleteFlag, 0)));
+        result.put("historyNum", userRecordInfoMapper.selectCount(Wrappers.<UserRecordInfo>lambdaQuery()));
+
+        Integer year = DateUtil.thisYear();
+        Integer month = DateUtil.thisMonth() + 1;
+        // 本月发帖数量
+        result.put("monthOrderNum", baseMapper.selectPostNumByDate(year, month));
+        // 获取本月浏览量
+        result.put("monthOrderTotal", baseMapper.selectViewNumByDate(year, month));
+
+        // 本年发帖数量
+        result.put("yearOrderNum", baseMapper.selectPostNumByDate(year, null));
+        // 本年浏览量
+        result.put("yearOrderTotal", baseMapper.selectViewNumByDate(year, null));
+
+        // 近十天发帖统计
+        result.put("orderNumDayList", baseMapper.selectOrderNumWithinDays());
+        // 近十天浏览统计
+        result.put("orderViewDayList", baseMapper.selectOrderViewWithinDays());
+        // 公告信息
+        result.put("bulletinInfoList", bulletinInfoService.list(Wrappers.<BulletinInfo>lambdaQuery().eq(BulletinInfo::getRackUp, 1)));
+
+        return result;
     }
 
     /**
