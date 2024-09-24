@@ -212,12 +212,12 @@ getPostInfo() {
 		}
 		if (item.itemtype === 2) {
 			wx.navigateTo({
-				url: '/pages/home/groom/index'
+				url: '/pages/order/index/index'
 			});
 		}
 		if (item.itemtype === 3) {
 			wx.navigateTo({
-				url: '/pages/coupon/index/index'
+				url: '/pages/order/index/index'
 			});
 		}
 		if (item.itemtype === 4) {

@@ -6,7 +6,7 @@ Page({
         CustomBar: app.globalData.CustomBar,
         TabbarBot: app.globalData.tabbar_bottom,
         TabCur: 0,scrollLeft:0,
-        SortMenu: [{id:0,name:"商品列表"},{id:1,name:"店铺列表"}],
+        SortMenu: [{id:0,name:"贴子列表"},{id:1,name:"用户列表"}],
         key: '',
         commodity: [],
         shop: []
@@ -16,20 +16,21 @@ Page({
         this.getGoodsFuzzy()
     },
     getGoodsFuzzy() {
-        http.get('getGoodsFuzzy', { key: this.data.key }).then((r) => {
-            r.commodity.forEach(item => {
-                item.image = item.images.split(',')[0]
-            });
-            this.setData({
-                commodity: r.commodity,
-                shop: r.shop
-            })
+        // console.log(this.data.key)
+        http.get('selShopDetailList', { key: this.data.key }).then((r) => {
+            this.setData({ commodity: r.post, shop: r.user })
 		})
+    },
+    postDetail(event) {
+        wx.navigateTo({
+            url: '/pages/coupon/detail/index?postId=' + event.currentTarget.dataset.postid + ''
+        });
     },
     search() {
         this.getGoodsFuzzy()
     },
     getKeyValue(e) {
+        console.log(e.detail.value)
 		this.setData({ key: e.detail.value })
 	},
     tabSelect(e) {
