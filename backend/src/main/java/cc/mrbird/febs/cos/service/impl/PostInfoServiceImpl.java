@@ -156,6 +156,7 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
         List<FocusInfo> focusInfoList2 = focusInfoMapper.selectList(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getCollectUserId, userId));
         userInfo.setFocusNum(focusInfoList1.size());
         userInfo.setFansNum(focusInfoList2.size());
+        result.put("user", userInfo);
         // 帖子
         result.put("post", baseMapper.getPostByUser(userId));
         return result;

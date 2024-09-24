@@ -17,9 +17,9 @@ Page({
         this.selShopDetail(options.shopId)
     },
     selShopDetail(shopId) {
-        http.get('getShopDetail', {shopId}).then((r) => {
+        http.get('getShopDetail', {userId: shopId}).then((r) => {
             this.setData({
-                shopInfo: r
+                shopInfo: r.user
             })
         })
     },
