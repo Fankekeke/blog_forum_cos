@@ -21,6 +21,11 @@ Page({
             this.setData({ commodity: r.post, shop: r.user })
 		})
     },
+    shopDeatil(e) {
+		wx.navigateTo({
+			url: '/pages/shop/index/index?shopId='+e.currentTarget.dataset.shopid+''
+		});
+	},
     postDetail(event) {
         wx.navigateTo({
             url: '/pages/coupon/detail/index?postId=' + event.currentTarget.dataset.postid + ''

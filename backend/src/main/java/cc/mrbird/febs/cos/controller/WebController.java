@@ -2,6 +2,7 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.dao.MessageInfoMapper;
 import cc.mrbird.febs.cos.dao.SensitiveInfoMapper;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
@@ -51,6 +52,8 @@ public class WebController {
     private final IFocusInfoService focusInfoService;
 
     private final SensitiveInfoMapper sensitiveInfoMapper;
+
+    private final MessageInfoMapper messageInfoMapper;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -450,6 +453,17 @@ public class WebController {
     @GetMapping("/queryCollectPost")
     public R queryCollectPost(@RequestParam("userId") Integer userId, @RequestParam("postId") Integer postId) {
         return R.ok(collectInfoService.count(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getPostId, postId).eq(CollectInfo::getUserId, userId)));
+    }
+
+    /**
+     * 根据用户获取消息信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryMessageByUser")
+    public R queryMessageByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(messageInfoMapper.selectList(Wrappers.<MessageInfo>lambdaQuery().eq(MessageInfo::getSendUser, userId)));
     }
 
     /**
