@@ -6,6 +6,7 @@ import cc.mrbird.febs.cos.dao.MessageInfoMapper;
 import cc.mrbird.febs.cos.dao.SensitiveInfoMapper;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
@@ -372,6 +373,16 @@ public class WebController {
                 throw new FebsException("回复内容中包含敏感词！");
             }
         }
+
+        // 帖子信息
+        PostInfo postInfo = postInfoService.getById(replyInfo.getPostId());
+        // 帖子所属人消息
+        MessageInfo messageInfo = new MessageInfo();
+        messageInfo.setSendUser(postInfo.getUserId());
+        messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        messageInfo.setContent("您发布的贴子【" + postInfo.getTitle() + "】有人进行了回复，【" + replyInfo.getContent() + "】，请查看");
+        messageInfoService.save(messageInfo);
+
         return R.ok(replyInfoService.save(replyInfo));
     }
 
@@ -392,6 +403,22 @@ public class WebController {
                 throw new FebsException("帖子内容中包含敏感词！");
             }
         }
+
+        // 此用户的粉丝
+        List<FocusInfo> focusInfoList = focusInfoService.list(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getCollectUserId, postInfo.getUserId()));
+        if (CollectionUtil.isNotEmpty(focusInfoList)) {
+            List<MessageInfo> messageList = new ArrayList<>();
+            for (FocusInfo focusInfo : focusInfoList) {
+                MessageInfo messageInfo = new MessageInfo();
+                messageInfo.setSendUser(focusInfo.getUserId());
+                messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+                messageInfo.setContent("您关注的用户发布了贴子【" + postInfo.getTitle() + "】，请查看");
+                messageList.add(messageInfo);
+            }
+
+            messageInfoService.saveBatch(messageList);
+        }
+
         return R.ok(postInfoService.save(postInfo));
     }
 
