@@ -467,6 +467,17 @@ public class WebController {
     }
 
     /**
+     * 删除消息
+     *
+     * @param messageId 消息ID
+     * @return 结果
+     */
+    @GetMapping("/delMessage")
+    public R delMessage(@RequestParam("messageId") Integer messageId) {
+        return R.ok(messageInfoMapper.deleteById(messageId));
+    }
+
+    /**
      * 查询帖子及用户信息
      *
      * @return 结果

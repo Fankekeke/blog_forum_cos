@@ -61,7 +61,7 @@ public class PostInfo implements Serializable {
     /**
      * 所属模块
      */
-    private String tagIds;
+    private Integer tagIds;
 
     /**
      * 删除标识

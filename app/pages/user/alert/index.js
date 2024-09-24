@@ -77,14 +77,8 @@ Page({
     }
   },
   getOrderListByUserId(userId) {
-    http.get('getPostByUser', { userId }).then((r) => {
-      console.log(r.data)
+    http.get('queryMessageByUser', { userId }).then((r) => {
       r.data.forEach(item => {
-        if (item.images) {
-          item.image = item.images.split(',')[0]
-        } else {
-          item.image = ''
-        }
         item.days = this.timeFormat(item.createDate)
       });
       this.setData({
@@ -93,7 +87,7 @@ Page({
     })
   },
   removerPost(event) {
-    http.get('deletePost', { postId: event.currentTarget.dataset.index }).then((r) => {
+    http.get('delMessage', { messageId: event.currentTarget.dataset.index }).then((r) => {
       wx.showToast({
         title: '删除成功',
         icon: 'none',

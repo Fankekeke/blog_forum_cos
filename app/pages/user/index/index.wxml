@@ -20,12 +20,12 @@
             <text class='text-grey'>我的记录</text>
         </navigator>
     </view>
-    <!-- <view class="cu-item arrow">
-        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/vipcard/index/index">
+    <view class="cu-item arrow">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/user/alert/index">
             <text class='icon-vipcard text-green'></text>
-            <text class='text-grey'>会员卡</text>
+            <text class='text-grey'>我的消息</text>
         </navigator>
-    </view> -->
+    </view>
     <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/coupon/index/index">
             <text class='icon-ticket text-red'></text>

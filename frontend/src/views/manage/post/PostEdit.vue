@@ -24,8 +24,8 @@
             'tagIds',
             { rules: [{ required: true, message: '请输入所属分类!' }] }
             ]">
-              <a-radio-button :value="item.id" v-for="(item, index) in tagList" :key="index">
-                {{ item.name }}
+              <a-radio-button :value="item.value" v-for="(item, index) in tagList" :key="index">
+                {{ item.label }}
               </a-radio-button>
             </a-radio-group>
           </a-form-item>
