@@ -485,7 +485,7 @@ public class WebController {
     /**
      * 根据用户获取消息信息
      *
-     * @param userId 用户ID
+     * @param userId 用户ID1
      * @return 结果
      */
     @GetMapping("/queryMessageByUser")
