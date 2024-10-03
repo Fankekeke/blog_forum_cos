@@ -43,7 +43,7 @@ public class UserRecordInfoController {
      */
     @GetMapping("/queryHistoryByUserId/{userId}")
     public R queryHistoryByUserId(@PathVariable("userId") Integer userId) {
-        return R.ok();
+        return R.ok(userRecordInfoService.queryHistoryByUserId(userId));
     }
 
     /**
