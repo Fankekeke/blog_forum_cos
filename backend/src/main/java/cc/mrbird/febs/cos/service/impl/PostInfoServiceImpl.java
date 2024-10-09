@@ -3,9 +3,11 @@ package cc.mrbird.febs.cos.service.impl;
 import cc.mrbird.febs.cos.dao.*;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.IBulletinInfoService;
+import cc.mrbird.febs.cos.service.IMailService;
 import cc.mrbird.febs.cos.service.IPostInfoService;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,13 +15,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 贴子消息 实现层
@@ -39,6 +42,10 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     private final UserRecordInfoMapper userRecordInfoMapper;
 
     private final IBulletinInfoService bulletinInfoService;
+
+    private final TemplateEngine templateEngine;
+
+    private final IMailService mailService;
 
     /**
      * 分页获取贴子消息
@@ -222,5 +229,53 @@ public class PostInfoServiceImpl extends ServiceImpl<PostInfoMapper, PostInfo> i
     @Override
     public List<LinkedHashMap<String, Object>> recommend(Integer tagId, List<Long> collectUserIds) {
         return baseMapper.recommend(tagId, StringUtils.join(collectUserIds.toArray(), ","));
+    }
+
+    /**
+     * 关注用户发送邮件
+     *
+     * @param focusInfoList 关注用户
+     * @param content       消息内容
+     */
+    @Async
+    @Override
+    public void emailSendFocus(List<FocusInfo> focusInfoList, String content) {
+        if (CollectionUtil.isEmpty(focusInfoList)) {
+            return;
+        }
+
+        List<Long> userIds = focusInfoList.stream().map(FocusInfo::getUserId).collect(Collectors.toList());
+        List<UserInfo> userInfoList = userInfoMapper.selectBatchIds(userIds);
+        for (UserInfo userInfo : userInfoList) {
+            if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+                // 邮箱通知
+                if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+                    Context context = new Context();
+                    context.setVariable("today", DateUtil.formatDate(new Date()));
+                    context.setVariable("custom", content);
+                    String emailContent = templateEngine.process("registerEmail", context);
+                    mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "用户发贴", emailContent);
+                }
+            }
+        }
+    }
+
+    /**
+     * 贴子回复发送邮件
+     *
+     * @param userId  用户ID
+     * @param content 消息内容
+     */
+    @Override
+    public void emailSendReply(Integer userId, String content) {
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        if (userInfo == null || StrUtil.isEmpty(userInfo.getEmail())) {
+            return;
+        }
+        Context context = new Context();
+        context.setVariable("today", DateUtil.formatDate(new Date()));
+        context.setVariable("custom", content);
+        String emailContent = templateEngine.process("registerEmail", context);
+        mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "贴子回复", emailContent);
     }
 }

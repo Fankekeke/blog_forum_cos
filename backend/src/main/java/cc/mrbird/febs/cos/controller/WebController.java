@@ -23,6 +23,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,6 +56,10 @@ public class WebController {
     private final SensitiveInfoMapper sensitiveInfoMapper;
 
     private final MessageInfoMapper messageInfoMapper;
+
+    private final TemplateEngine templateEngine;
+
+    private final IMailService mailService;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -380,7 +385,8 @@ public class WebController {
         MessageInfo messageInfo = new MessageInfo();
         messageInfo.setSendUser(postInfo.getUserId());
         messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        messageInfo.setContent("您发布的贴子【" + postInfo.getTitle() + "】有人进行了回复，【" + replyInfo.getContent() + "】，请查看");
+        String content = "您发布的贴子【" + postInfo.getTitle() + "】有人进行了回复，【" + replyInfo.getContent() + "】，请查看";
+        messageInfo.setContent(content);
         messageInfoService.save(messageInfo);
 
         return R.ok(replyInfoService.save(replyInfo));
@@ -408,15 +414,17 @@ public class WebController {
         List<FocusInfo> focusInfoList = focusInfoService.list(Wrappers.<FocusInfo>lambdaQuery().eq(FocusInfo::getCollectUserId, postInfo.getUserId()));
         if (CollectionUtil.isNotEmpty(focusInfoList)) {
             List<MessageInfo> messageList = new ArrayList<>();
+            String content = "您关注的用户发布了贴子【" + postInfo.getTitle() + "】，请查看";
             for (FocusInfo focusInfo : focusInfoList) {
                 MessageInfo messageInfo = new MessageInfo();
                 messageInfo.setSendUser(focusInfo.getUserId());
                 messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-                messageInfo.setContent("您关注的用户发布了贴子【" + postInfo.getTitle() + "】，请查看");
+                messageInfo.setContent(content);
                 messageList.add(messageInfo);
             }
 
             messageInfoService.saveBatch(messageList);
+            postInfoService.emailSendFocus(focusInfoList, content);
         }
 
         return R.ok(postInfoService.save(postInfo));
@@ -524,49 +532,4 @@ public class WebController {
     public R getShopDetail(@RequestParam Integer userId) {
         return R.ok(postInfoService.getUserPostDetail(userId));
     }
-//
-//    /**
-//     * 店铺商品排序方式
-//     *
-//     * @param shopId
-//     * @return 结果
-//     */
-//    @GetMapping("/shopCommoditSort")
-//    public R shopCommoditySort(@RequestParam(value = "shopId") Integer shopId, @RequestParam(value = "type") Integer type) {
-//        return R.ok(commodityInfoService.shopCommoditySort(shopId, type));
-//    }
-//
-//    /**
-//     * 模糊查询店内商品
-//     *
-//     * @param shopId
-//     * @param key
-//     * @return 结果
-//     */
-//    @GetMapping("/commodityLikeByShop")
-//    public R commodityLikeByShop(@RequestParam(value = "shopId") Integer shopId, @RequestParam(value = "key") String key) {
-//        return R.ok(commodityInfoService.commodityLikeByShop(shopId, key));
-//    }
-//
-//    /**
-//     * 查找商品或店铺
-//     *
-//     * @param key
-//     * @return 结果
-//     */
-//    @GetMapping("/getGoodsFuzzy")
-//    public R getGoodsFuzzy(String key) {
-//        return R.ok(commodityInfoService.getGoodsFuzzy(key));
-//    }
-//
-//    /**
-//     * 获取用户所有订单
-//     *
-//     * @param userId
-//     * @return 结果
-//     */
-//    @GetMapping("/getOrderListByUserId")
-//    public R getOrderListByUserId(Integer userId) {
-//        return R.ok(orderInfoService.getOrderListByUserId(userId));
-//    }
 }

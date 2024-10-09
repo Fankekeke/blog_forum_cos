@@ -54,6 +54,11 @@ public class UserInfo implements Serializable {
     private String area;
 
     /**
+     * 邮箱地址
+     */
+    private String email;
+
+    /**
      * 职业
      */
     private String profession;

@@ -1,5 +1,6 @@
 package cc.mrbird.febs.cos.service;
 
+import cc.mrbird.febs.cos.entity.FocusInfo;
 import cc.mrbird.febs.cos.entity.PostInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -96,4 +97,20 @@ public interface IPostInfoService extends IService<PostInfo> {
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> recommend(Integer tagId, List<Long> collectUserIds);
+
+    /**
+     * 关注用户发送邮件
+     *
+     * @param focusInfoList 关注用户
+     * @param content       消息内容
+     */
+    void emailSendFocus(List<FocusInfo> focusInfoList, String content);
+
+    /**
+     * 贴子回复发送邮件
+     *
+     * @param userId  用户ID
+     * @param content 消息内容
+     */
+    void emailSendReply(Integer userId, String content);
 }
