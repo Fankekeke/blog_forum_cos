@@ -167,10 +167,10 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      if (this.tagCheck.length === 0) {
-        this.$message.error('需要选择所属分类！')
-        return
-      }
+      // if (this.tagCheck.length === 0) {
+      //   this.$message.error('需要选择所属分类！')
+      //   return
+      // }
       // 获取图片List
       let images = []
       this.fileList.forEach(image => {
