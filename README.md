@@ -1,14 +1,17 @@
-### 基于SpringBoot + Vue的博客论坛系统.
+![](https://img.shields.io/badge/License-MIT-blue.svg)
 
-博客社区系统、在线论坛平台、互动博客平台、内容分享与评论系统
+![](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)
 
-#### 管理员功能模块介绍：
-> 公告管理：发布、编辑或删除全站公告，传达重要信息。分类管理：创建和维护帖子的分类标签，便于内容归类。文章管理：审核、编辑、置顶或删除用户发布的所有帖子。用户管理：查看用户资料，处理违规账号或权限调整。评论管理：监控、审核或删除帖子下的用户评论内容。访问记录：统计并分析用户访问行为与热门内容数据。消息管理：管理平台发送的系统通知及用户私信记录。数据统计：生成用户活跃度、发帖量、访问量等运营报表。用户对话聊天：查看或监管用户间的私信交流内容。用户关注：跟踪用户之间的关注关系与互动情况。贴子收藏：查看用户收藏的热门或优质帖子数据。
+![](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
-#### 用户功能模块介绍：
-> 用户注册登录：通过账号完成注册并安全登录系统。修改个人信息：编辑昵称、头像、简介等个人资料。搜索贴子：按关键词查找感兴趣的帖子或话题内容。搜索用户：查找其他用户并查看其公开信息。用户详情：浏览他人主页，了解其发帖与关注动态。贴子回复：在帖子下方发表评论或参与讨论。系统消息：接收平台通知、回复提醒或私信内容。用户关注：关注感兴趣的人，及时获取其新帖动态。贴子收藏：将优质帖子加入收藏夹以便后续查看。发布贴子：创建新主题，分享文字、图片等内容。贴子管理：编辑、删除或查看自己发布的所有帖子。
+# 基于 SpringBoot + Vue 的博客论坛系统 (Blog & Forum System)
+
+文章发布 · 贴子互动 · 评论回复 · 用户关注 · 贴子收藏 · 即时聊天 · 数据统计 · 多角色协同
+
+本项目是一套面向社区交流场景的博客论坛系统，采用前后端分离架构，覆盖管理员与普通用户两类角色。系统围绕“文章管理、贴子发布、评论回复、用户关注、贴子收藏、即时聊天、分类管理、公告发布、访问记录、数据统计”等核心业务设计，支持用户在线注册登录、发布贴子、回复评论、搜索内容与用户、关注他人、收藏贴子、私信聊天与接收系统消息，管理员完成文章审核、分类维护、用户管理、评论监管、公告发布、消息推送、访问统计与多维度数据分析，适用于技术社区、兴趣论坛、校园交流平台、企业内部知识库及博客写作分享场景。
 
 #### 安装环境
+️**注意**：请确保您的开发环境已安装以下依赖。
 
 JAVA 环境 
 
@@ -16,30 +19,136 @@ Node.js环境 [https://nodejs.org/en/] 选择14.17
 
 Yarn 打开cmd， 输入npm install -g yarn !!!必须安装完毕nodejs
 
-Mysql 数据库 [https://blog.csdn.net/qq_40303031/article/details/88935262] 一定要把账户和密码记住
+Mysql 数据库 一定要把账户和密码记住
 
 redis
 
-Idea 编译器 [https://blog.csdn.net/weixin_44505194/article/details/104452880]
+Idea 编译器
 
-WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
+WebStorm OR VScode 编译器
 
 #### 采用技术及功能
 
 后端：SpringBoot、MybatisPlus、MySQL、Redis、
 前端：Vue、Apex、Antd、Axios
 
-平台前端：vue(框架) + vuex(全局缓存) + rue-router(路由) + axios(请求插件) + apex(图表)  + antd-ui(ui组件)
+平台前端：vue(框架) + vuex(全局缓存) + rue-router(路由) + axios(请求插件) + apex(图表)  + antd-ui(ui组件) + 百度地图 API
 
 平台后台：springboot(框架) + redis(缓存中间件) + shiro(权限中间件) + mybatisplus(orm) + restful风格接口 + mysql(数据库)
 
 开发环境：windows10 or windows7 ， vscode or webstorm ， idea + lambok
 
-##### 管理员：
-公告管理、分类管理。文章管理，用户管理，评论管理，访问记录，消息管理，数据统计，用户对话聊天，用户关注，贴子收藏
+---
 
-##### 用户：
-用户注册登录、修改个人信息、搜索贴子，搜索用户，用户详情，贴子回复，系统消息，用户关注，贴子收藏，发布贴子，贴子管理
+## 核心特性
+
+- **多角色权限管理**：区分管理员与普通用户两类角色，实现不同权限隔离与功能访问控制。
+- **文章与贴子管理**：支持用户发布文章与贴子，管理员可对内容进行审核、推荐、置顶与下架处理。
+- **多级分类体系**：支持文章与贴子的多级分类管理，便于内容归类与用户检索。
+- **评论与回复互动**：支持用户对贴子进行评论与楼中楼回复，形成良好的社区互动氛围。
+- **用户关注机制**：用户可关注其他用户，动态接收关注对象的最新发布内容。
+- **贴子收藏功能**：用户可收藏感兴趣的贴子与文章，便于后续查阅与管理。
+- **即时聊天功能**：内置用户私信聊天模块，支持一对一实时沟通与消息记录保存。
+- **全文搜索**：支持按关键词搜索贴子、文章与用户，支持分类筛选与排序。
+- **系统消息通知**：支持评论提醒、关注通知、私信消息、系统公告等多端消息推送。
+- **访问记录与数据统计**：记录用户访问行为，提供浏览量、发帖量、用户增长、热门内容等多维度统计报表。
+- **公告管理**：管理员可发布系统公告，包括活动通知、规则调整、维护通知与安全提示。
+---
+
+## 适用场景
+
+- 技术社区与开发者论坛
+- 兴趣交流社区（摄影、读书、游戏等）
+- 校园交流平台与社团论坛
+- 企业内部知识库与讨论区
+- 个人博客与写作分享平台
+- 内容创作与互动社区
+- 开源项目交流与问答社区
+---
+
+## 功能模块概览
+
+## 管理员端
+
+管理员负责平台整体运营、内容审核、用户管理、分类维护、公告发布与数据统计分析：
+
+### 内容与分类管理
+
+- **文章管理**：查看平台所有文章，支持按作者、分类、状态筛选，可对文章进行审核、推荐、置顶、编辑与下架操作。
+- **分类管理**：维护文章与贴子的分类体系，支持多级分类的增删改查，便于内容归类与用户导航。
+- **评论管理**：查看平台所有评论，支持按贴子、用户筛选，可对违规评论进行删除、屏蔽与举报处理。
+
+### 用户与互动管理
+
+- **用户管理**：管理注册用户信息，包括账号状态、实名认证、角色分配，支持禁用异常账号与重置密码。
+- **用户关注**：查看用户关注关系数据，支持对异常关注行为进行处理。
+- **贴子收藏**：查看用户贴子收藏记录，支持对收藏数据进行统计与分析。
+- **用户对话聊天**：查看用户私信聊天记录（仅用于违规监管），支持对违规聊天内容进行警告与封禁处理。
+
+### 公告与消息管理
+
+- **公告管理**：发布系统公告，包括活动通知、规则调整、维护通知与安全提示，支持置顶、定时发布与编辑删除。
+- **消息管理**：向指定用户或全体用户推送系统消息，包括审核结果、违规提醒、活动邀请与重要通知。
+
+### 数据与访问管理
+
+- **访问记录**：记录用户访问行为，包括页面浏览、贴子查看、搜索记录等，支持按时间、用户、内容类型筛选。
+- **数据统计**：展示平台核心指标，包括日/月活跃用户、发帖量、评论量、浏览量、用户增长趋势、热门内容与分类分布等可视化报表。
+
+---
+
+## 用户端
+
+用户端面向普通注册用户，提供注册登录、内容发布、互动评论、搜索关注、收藏聊天与消息通知功能：
+
+### 账户与个人信息
+
+- **用户注册登录**：支持手机号或邮箱注册登录，密码加密存储，支持第三方登录（可选）。
+- **修改个人信息**：维护昵称、头像、简介、联系方式、个人主页等个人信息。
+- **用户详情**：查看其他用户的个人主页，包括发布的贴子、文章、关注数、粉丝数与收藏数。
+
+### 内容发布与管理
+
+- **发布贴子**：在线发布新贴子，支持富文本编辑、图片上传、分类选择与标签添加。
+- **贴子管理**：查看自己发布的所有贴子，支持编辑、删除、置顶（个人置顶）与查看浏览/评论数据。
+- **搜索贴子**：按关键词搜索贴子与文章，支持按分类、时间、热度排序与筛选。
+- **搜索用户**：按昵称或关键词搜索其他用户，快速找到感兴趣的用户并关注。
+
+### 互动与社交
+
+- **贴子回复**：对贴子进行评论，支持楼中楼回复与点赞，形成多层互动。
+- **用户关注**：关注感兴趣的用户，动态接收其最新发布内容，支持取消关注。
+- **贴子收藏**：收藏感兴趣的贴子与文章，便于后续查阅，支持取消收藏与分类管理。
+- **用户对话聊天**：与其他用户进行一对一私信聊天，支持发送文字、表情与图片，消息记录实时保存。
+
+### 消息通知
+
+- **系统消息**：接收评论提醒、关注通知、私信消息、系统公告等通知，支持标记已读、删除与批量操作。
+
+---
+
+## 项目结构
+
+```text
+pharmacy-dispensing-system/
+├── backend/            # 后端 API 服务
+│   ├── src/
+│   │   ├── controllers/  # 控制器
+│   │   ├── models/       # 数据模型
+│   │   ├── routes/       # 路由
+│   │   └── services/     # 业务逻辑
+│   └── package.json
+├── frontend/           # 前端 Web 应用
+│   ├── src/
+│   │   ├── views/      # 页面视图
+│   │   ├── components/ # 公共组件
+│   │   └── store/      # 状态管理
+│   └── package.json
+├── docs/               # 项目文档与 API 接口说明
+├── LICENSE
+└── README.md
+```
+---
 
 
 #### 前台启动方式
@@ -49,28 +158,30 @@ WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
 #### 默认后台账户密码
 [管理员]
 admin
-1234qwer
+123456
 
 [用户]
-小程序登录
+fank
+123456
+
 #### 项目截图
+|  |  |
+|---------------------|---------------------|
+| ![](./assets/image%20(1).png) | ![](./assets/image%20(2).png) |
+| ![](./assets/image%20(3).png) | ![](./assets/image%20(4).png) |
+| ![](./assets/image%20(5).png) | ![](./assets/image%20(6).png) |
+| ![](./assets/image%20(7).png) | ![](./assets/image%20(8).png) |
+| ![](./assets/image%20(9).png) | ![](./assets/image%20(10).png) |
+| ![](./assets/image%20(11).png) |
 
 |  |  |
 |---------------------|---------------------|
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478064534.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477962040.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478049824.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477952047.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478032184.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477942373.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478021718.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477931236.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478011574.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477915697.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728477902429.png) |  |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478390351.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478195416.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478378099.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478258534.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478339094.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478248471.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478325471.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478235224.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478307241.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478222427.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478296456.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478207133.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1728478276850.png) |  |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/work/936e9baf53eb9a217af4f89c616dc19.png) |
+| ![](./assets/app_image%20(1).png) | ![](./assets/app_image%20(2).png) |
+| ![](./assets/app_image%20(3).png) | ![](./assets/app_image%20(4).png) |
+| ![](./assets/app_image%20(5).png) | ![](./assets/app_image%20(6).png) |
+| ![](./assets/app_image%20(7).png) | ![](./assets/app_image%20(8).png) |
+| ![](./assets/app_image%20(9).png) | ![](./assets/app_image%20(10).png) |
+| ![](./assets/app_image%20(11).png) | ![](./assets/app_image%20(12).png) |
 
 #### 演示视频
 
@@ -88,7 +199,10 @@ WeChat: `Storm_Berserker`
 
 > 项目部署调试不好包退！功能逻辑没讲明白包退！
 
+<div align=center><img align="center" src="./assets/product_word.png" alt="fankekeke" /></div>
+
 #### 其它资源
+[2026年-答辩顺利通过-客户评价🀄](https://berserker287.github.io/2026/06/29/2026%E5%B9%B4%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%88%A9%E9%80%9A%E8%BF%87/)
 
 [2025年-答辩顺利通过-客户评价🍜](https://berserker287.github.io/2025/06/18/2025%E5%B9%B4%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%88%A9%E9%80%9A%E8%BF%87/)
 
@@ -112,4 +226,8 @@ WeChat: `Storm_Berserker`
 
 More info: [悲伤的橘子树](https://berserker287.github.io/)
 
-<p><img align="center" src="https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/%E5%90%88%E4%BD%9C%E7%89%A9%E6%96%99%E6%A0%B7%E5%BC%8F%20(3).png" alt="fankekeke" /></p>
+<div align="center"><img align="center" src="./assets/chat_qr_code.png" alt="fankekeke" width=250 /></div>
+
+<p><img align="center" src="./assets/wechat_group.png" alt="fankekeke" /></p>
+
+**感谢查看**
